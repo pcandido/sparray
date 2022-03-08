@@ -1,4 +1,4 @@
-import { from, range, isSparray, repeat, Sparray } from './sparray'
+import { from, range, repeat, isSparray, Sparray } from './sparray'
 
 function assertEqual<T>(actual: Sparray<T>, expected: T[]) {
   expect(actual).toEqual({ data: expected })

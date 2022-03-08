@@ -88,6 +88,16 @@ export function range(start: number, end?: number, step?: number): Sparray<numbe
  * Build a sparray by repeating value for n times
  * @param value the value will fill the sparray
  * @param times quantity of values to fill sparray
+ * @deprecated Use #repeat(value, times)
+ */
+export function fillOf<T>(times: number, value: T): Sparray<T> {
+  return repeat(value, times)
+}
+
+/**
+ * Build a sparray by repeating value for n times
+ * @param value the value will fill the sparray
+ * @param times quantity of values to fill sparray
  */
 export function repeat<T>(value: T, times: number): Sparray<T> {
   if (times < 0) throw new Error(`Invalid "times" value: ${times}`)
