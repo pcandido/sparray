@@ -151,28 +151,44 @@ describe('Sparray', () => {
 
     it('should not be impacted if the origin array changes', () => {
       const data = [1, 2, 3, 4, 5]
-      const sparray = new Sparray(data)
+      const sut = new Sparray(data)
       data.push(6)
 
-      assertEqual(sparray, [1, 2, 3, 4, 5])
+      assertEqual(sut, [1, 2, 3, 4, 5])
     })
   })
 
   describe('toArray', () => {
     it('should return the values of sparray as an array', () => {
       const data = [1, 2, 3]
-      const sparray = from(data)
+      const sut = from(data)
 
-      expect(sparray.toArray()).toEqual(data)
+      expect(sut.toArray()).toEqual(data)
     })
 
     it('should produce an array that does not impact sparray if changed', () => {
-      const sparray = from([1, 2, 3])
-      const exported = sparray.toArray()
+      const sut = from([1, 2, 3])
+      const exported = sut.toArray()
       exported.push(4)
 
       expect(exported).toEqual([1, 2, 3, 4])
-      assertEqual(sparray, [1, 2, 3])
+      assertEqual(sut, [1, 2, 3])
+    })
+  })
+
+  describe('toSet', () => {
+    it('should return a set of its elements', () => {
+      const sut = from(1, 2, 3, 3)
+      expect(sut.toSet()).toEqual(new Set([1, 2, 3]))
+    })
+
+    it('should produce a Set that does not impact sparray if changed', () => {
+      const sut = from([1, 2, 3])
+      const exported = sut.toSet()
+      exported.add(4)
+
+      expect(exported).toEqual(new Set([1, 2, 3, 4]))
+      assertEqual(sut, [1, 2, 3])
     })
   })
 

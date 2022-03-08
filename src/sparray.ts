@@ -152,4 +152,11 @@ export class Sparray<T>{
     return [...this.data]
   }
 
+  /**
+   * Returns the raw data as a native Set
+   */
+  toSet(): Set<T> {
+    return new Set(this.data)
+  }
+
 }
