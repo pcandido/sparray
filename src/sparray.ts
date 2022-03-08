@@ -19,7 +19,11 @@ export function from<T>(...data: any): Sparray<T> {
   return new Sparray(data)
 }
 
-class Sparray<T>{
+export function isSparray(object: any) {
+  return true
+}
+
+export class Sparray<T>{
 
   private data: T[]
 

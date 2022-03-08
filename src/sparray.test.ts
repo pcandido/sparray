@@ -1,6 +1,6 @@
-import { from } from './sparray'
+import { from, isSparray, Sparray } from './sparray'
 
-function assertEqual<T>(actual: any, expected: any[]) {
+function assertEqual<T>(actual: Sparray<T>, expected: T[]) {
   expect(actual).toEqual({ data: expected })
 }
 
@@ -26,14 +26,32 @@ describe('Sparray factories', () => {
       assertEqual(from([{ field: 1 }]), [{ field: 1 }])
     })
 
+    it('should create a sparray with a single provided array of multiple elements', () => {
+      assertEqual(from([1, 2, 3]), [1, 2, 3])
+      assertEqual(from<any>([1, true, ['a'], { field: 3 }]), [1, true, ['a'], { field: 3 }])
+    })
+
     it('should create a sparray with all the provided values', () => {
       assertEqual(from(1, 2, 3), [1, 2, 3])
-      assertEqual(
-        from<any>(1, true, ['a'], { field: 3 }),
-        [1, true, ['a'], { field: 3 }],
-      )
+      assertEqual(from<any>(1, true, ['a'], { field: 3 }), [1, true, ['a'], { field: 3 }])
+    })
+
+    it.skip('should create a sparray from another single sparray', () => {
+      const firstSparray = from(1, 2, 3)
+      const secondSparray = from(firstSparray)
+
+      expect(secondSparray).toEqual({ data: [1, 2, 3] })
     })
 
   })
 
+})
+
+describe('isSparray', () => {
+  it('should return true if the providen value is a sparray', () => {
+    const obj = from(1,2,3)
+    const result = isSparray(obj)
+
+    expect(result).toBe(true)
+  })
 })
