@@ -198,6 +198,10 @@ describe('Sparray', () => {
     it('should return the n-th element when use positive index', () => {
       expect(sut.get(3)).toBe(4)
     })
+
+    it('should return elements backward for negative indices', () => {
+      expect(sut.get(-2)).toBe(4)
+    })
   })
 
 })

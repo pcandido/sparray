@@ -165,8 +165,16 @@ export class Sparray<T>{
     return new Set(this.data)
   }
 
+  private resolveIndex(index: number): number {
+    if (index < 0)
+      return this.data.length + index
+
+    return index
+  }
+
   get(index: number): T {
-    return this.data[index]
+    const resolvedIndex = this.resolveIndex(index)
+    return this.data[resolvedIndex]
   }
 
 }
