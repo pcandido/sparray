@@ -48,10 +48,26 @@ describe('Sparray factories', () => {
 })
 
 describe('isSparray', () => {
+
   it('should return true if the providen value is a sparray', () => {
-    const obj = from(1,2,3)
+    const obj = from(1, 2, 3)
     const result = isSparray(obj)
 
     expect(result).toBe(true)
   })
+
+  it('should return false if the providen value is NOT a sparray', () => {
+    const obj = 'test'
+    const result = isSparray(obj)
+
+    expect(result).toBe(false)
+  })
+
+  it('should return false if the providen value is a simple array', () => {
+    const obj = [1, 2, 3]
+    const result = isSparray(obj)
+
+    expect(result).toBe(false)
+  })
+
 })

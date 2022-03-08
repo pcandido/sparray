@@ -20,7 +20,7 @@ export function from<T>(...data: any): Sparray<T> {
 }
 
 export function isSparray(object: any) {
-  return true
+  return object instanceof Sparray
 }
 
 export class Sparray<T>{
