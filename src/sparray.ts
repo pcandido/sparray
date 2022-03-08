@@ -184,4 +184,11 @@ export class Sparray<T>{
     return this.data[resolvedIndex]
   }
 
+  /**
+  * The number of elements of the sparray.
+  */
+  get length() {
+    return this.data.length
+  }
+
 }

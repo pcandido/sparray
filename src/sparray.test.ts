@@ -208,4 +208,11 @@ describe('Sparray', () => {
     })
   })
 
+  describe('length', () => {
+    it('should return the length of sparray', () => {
+      const sut = from(1, 2, 3)
+      expect(sut.length).toBe(3)
+    })
+  })
+
 })
