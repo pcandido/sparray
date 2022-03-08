@@ -121,10 +121,23 @@ export function isSparray(object: any) {
   return object instanceof Sparray
 }
 
+/**
+ * Sparray - Supper Array
+ * Holds the methods and attributes of a sparray. Sparrays are immutable, i.e. it is not possible to include,
+ * remove or replace an element of a sparray (although it is possible to change the referenced element,
+ * e.g: attributes of an embeded object). Every operation/transformation (such as map, filter, and concat)
+ * will generate a new and immutable sparray.
+ */
 export class Sparray<T>{
 
   private data: T[]
 
+  /**
+   * Constructor of the sparray
+   *
+   * @constructor
+   * @param data - array with the elements
+   */
   constructor(data: T[]) {
     if (!Array.isArray(data))
       throw new Error('Invalid data value')
