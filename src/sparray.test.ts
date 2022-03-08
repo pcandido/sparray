@@ -12,6 +12,20 @@ describe('Sparray factories', () => {
       assertEqual(from<number>(), [])
     })
 
+    it('should create a sparray from a single element', () => {
+      assertEqual(from(true), [true])
+      assertEqual(from(1), [1])
+      assertEqual(from('a'), ['a'])
+      assertEqual(from({ field: 1 }), [{ field: 1 }])
+    })
+
+    it('should create a sparray from a single-value array', () => {
+      assertEqual(from([true]), [true])
+      assertEqual(from([1]), [1])
+      assertEqual(from(['a']), ['a'])
+      assertEqual(from([{ field: 1 }]), [{ field: 1 }])
+    })
+
   })
 
 })
