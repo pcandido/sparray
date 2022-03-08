@@ -73,6 +73,11 @@ describe('Sparray factories', () => {
       assertEqual(range(5, 2), [5, 4, 3])
       assertEqual(range(2, -2), [2, 1, 0, -1])
     })
+
+    it('should create a range from given start (inclusive) to given end (exclusive), with given step', () => {
+      assertEqual(range(2, 10, 2), [2, 4, 6, 8])
+      assertEqual(range(10, -10, -3), [10, 7, 4, 1, -2, -5, -8])
+    })
   })
 
 })
