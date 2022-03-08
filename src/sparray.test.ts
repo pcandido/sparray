@@ -51,6 +51,11 @@ describe('Sparray factories', () => {
       expect(thirdSparray).toEqual({ data: [{ data: [1, 2, 3] }, { data: [4, 5, 6] }] })
     })
 
+    it('should create a sparray from a single set', () => {
+      assertEqual(from(new Set([1, 2, 3])), [1, 2, 3])
+      assertEqual(from(new Set([1, 1, 2, 3])), [1, 2, 3])
+    })
+
   })
 
 })
