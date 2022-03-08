@@ -26,6 +26,14 @@ describe('Sparray factories', () => {
       assertEqual(from([{ field: 1 }]), [{ field: 1 }])
     })
 
+    it('should create a sparray with all the provided values', () => {
+      assertEqual(from(1, 2, 3), [1, 2, 3])
+      assertEqual(
+        from<any>(1, true, ['a'], { field: 3 }),
+        [1, true, ['a'], { field: 3 }],
+      )
+    })
+
   })
 
 })

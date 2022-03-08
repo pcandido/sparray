@@ -1,6 +1,7 @@
 export function from<T>(): Sparray<T>
 export function from<T>(item: T[]): Sparray<T>
 export function from<T>(item: T): Sparray<T>
+export function from<T>(...items: T[]): Sparray<T>
 export function from<T>(...data: any): Sparray<T> {
   if (data.length == 0)
     return new Sparray([])
