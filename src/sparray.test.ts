@@ -1,4 +1,4 @@
-import { from, range, repeat, isSparray, Sparray } from './sparray'
+import { from, range, repeat, empty, isSparray, Sparray } from './sparray'
 
 function assertEqual<T>(actual: Sparray<T>, expected: T[]) {
   expect(actual).toEqual({ data: expected })
@@ -100,6 +100,12 @@ describe('Sparray factories', () => {
 
     it('should throw exception if times is negative', () => {
       expect(() => { repeat('value', -1) }).toThrow('Invalid "times" value: -1')
+    })
+  })
+
+  describe('empty', () => {
+    it('should create a empty sparray', () => {
+      assertEqual(empty(), [])
     })
   })
 

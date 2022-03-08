@@ -107,6 +107,13 @@ export function repeat<T>(value: T, times: number): Sparray<T> {
 }
 
 /**
+ * Build an empty sparray
+ */
+export function empty<T>(): Sparray<T> {
+  return new Sparray<T>([])
+}
+
+/**
  * Determines if an object is an instance of sparray
  * @param object - object to verify
  */
