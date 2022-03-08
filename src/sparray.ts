@@ -9,7 +9,9 @@ export function from<T>(...data: any): Sparray<T> {
   if (data.length === 1) {
     const singleValue = data[0]
 
-    if (Array.isArray(singleValue)) {
+    if (isSparray(singleValue)) {
+      return new Sparray(singleValue.data)
+    } else if (Array.isArray(singleValue)) {
       return new Sparray(singleValue)
     } else {
       return new Sparray([singleValue])

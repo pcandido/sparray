@@ -36,7 +36,7 @@ describe('Sparray factories', () => {
       assertEqual(from<any>(1, true, ['a'], { field: 3 }), [1, true, ['a'], { field: 3 }])
     })
 
-    it.skip('should create a sparray from another single sparray', () => {
+    it('should create a sparray from another single sparray', () => {
       const firstSparray = from(1, 2, 3)
       const secondSparray = from(firstSparray)
 
