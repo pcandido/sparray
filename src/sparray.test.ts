@@ -43,6 +43,14 @@ describe('Sparray factories', () => {
       expect(secondSparray).toEqual({ data: [1, 2, 3] })
     })
 
+    it('should create a sparray from another multiple sparray', () => {
+      const firstSparray = from(1, 2, 3)
+      const secondSparray = from(4, 5, 6)
+      const thirdSparray = from([firstSparray, secondSparray])
+
+      expect(thirdSparray).toEqual({ data: [{ data: [1, 2, 3] }, { data: [4, 5, 6] }] })
+    })
+
   })
 
 })
