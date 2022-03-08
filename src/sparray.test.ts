@@ -202,6 +202,10 @@ describe('Sparray', () => {
     it('should return elements backward for negative indices', () => {
       expect(sut.get(-2)).toBe(4)
     })
+
+    it('should return undefined for out of bound indices', () => {
+      expect(sut.get(50)).toBeUndefined()
+    })
   })
 
 })

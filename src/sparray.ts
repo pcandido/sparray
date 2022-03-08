@@ -172,6 +172,13 @@ export class Sparray<T>{
     return index
   }
 
+  /**
+   * Gets an element from sparray by index.
+   * Negative indices will get elements backward.
+   * Out of bound indices will return undefined.
+   *
+   * @param index - the position of the element that should be gotten
+   */
   get(index: number): T {
     const resolvedIndex = this.resolveIndex(index)
     return this.data[resolvedIndex]
