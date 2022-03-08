@@ -48,16 +48,24 @@ export function from<T>(...data: any): Sparray<T> {
  */
 export function range(end: number): Sparray<number>
 export function range(start: number, end: number): Sparray<number>
-export function range(start: number, end?: number): Sparray<number> {
+export function range(start: number, end: number, step: number): Sparray<number>
+export function range(start: number, end?: number, step?: number): Sparray<number> {
 
   if (typeof end === 'undefined') {
     end = start
     start = 0
   }
 
+  if (typeof step === 'undefined') {
+    step = (start < end) ? 1 : -1
+  }
+
   const data: number[] = []
-  for (let i = start; i < end; i++)
-    data.push(i)
+  if (start < end) {
+    for (let i = start; i < end; i += step) data.push(i)
+  } else {
+    for (let i = start; i > end; i += step) data.push(i)
+  }
 
   return new Sparray<number>(data)
 }
