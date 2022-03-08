@@ -126,6 +126,9 @@ export class Sparray<T>{
   private data: T[]
 
   constructor(data: T[]) {
+    if (!Array.isArray(data))
+      throw new Error('Invalid data value')
+
     this.data = data
   }
 

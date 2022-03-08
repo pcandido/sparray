@@ -135,3 +135,19 @@ describe('isSparray', () => {
   })
 
 })
+
+describe('Sparray', () => {
+
+  describe('constructor', () => {
+    it('should create an sparray based on given array', () => {
+      const data = [1, 2, 3]
+      assertEqual(new Sparray(data), data)
+    })
+
+    it('should throw an exception if argument is not an array', () => {
+      const data = 'string' as any
+      expect(() => new Sparray(data)).toThrow('Invalid data value')
+    })
+  })
+
+})
