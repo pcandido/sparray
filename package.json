@@ -1,0 +1,12 @@
+{
+  "name": "sparray",
+  "version": "2.1.0",
+  "description": "Super Array - A simple and powerful library to handle immutable arrays/lists",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["list", "array", "collection"],
+  "author": "Paulo Cândido <pcandido.m@gmail.com>",
+  "license": "MIT"
+}
