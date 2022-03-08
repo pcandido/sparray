@@ -148,6 +148,14 @@ describe('Sparray', () => {
       const data = 'string' as any
       expect(() => new Sparray(data)).toThrow('Invalid data value')
     })
+
+    it('should not be impacted if the origin array changes', () => {
+      const data = [1, 2, 3, 4, 5]
+      const sparray = new Sparray(data)
+      data.push(6)
+      
+      assertEqual(sparray, [1, 2, 3, 4, 5])
+    })
   })
 
 })

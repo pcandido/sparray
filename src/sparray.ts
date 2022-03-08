@@ -129,7 +129,7 @@ export class Sparray<T>{
     if (!Array.isArray(data))
       throw new Error('Invalid data value')
 
-    this.data = data
+    this.data = [...data]
   }
 
 }
