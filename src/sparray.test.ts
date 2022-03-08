@@ -214,9 +214,21 @@ describe('Sparray', () => {
       expect(sut.length).toBe(3)
     })
 
-    it('should return 0 for empty arrays', () => {
+    it('should return 0 for empty sparrays', () => {
       const sut = empty()
       expect(sut.length).toBe(0)
+    })
+  })
+
+  describe('size', () => {
+    it('should return the size/length of sparray', () => {
+      const sut = from(1, 2, 3)
+      expect(sut.size()).toBe(3)
+    })
+
+    it('should return 0 for empty sparrays', () => {
+      const sut = empty()
+      expect(sut.size()).toBe(0)
     })
   })
 

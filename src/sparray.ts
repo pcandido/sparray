@@ -186,9 +186,21 @@ export class Sparray<T>{
 
   /**
   * The number of elements of the sparray.
+  * @see size()
+  * @see count()
   */
   get length() {
     return this.data.length
+  }
+
+  /**
+   * Returns the number of elements of the sparray.
+   * Same result of length.
+   * @see length
+   * @see count()
+   */
+  size() {
+    return this.length
   }
 
 }
