@@ -46,8 +46,19 @@ export function from<T>(...data: any): Sparray<T> {
  * Build a sparray with numbers from 0 (inclusive) to end (exclusive)
  * @param end
  */
-export function range(end: number) {
-  const data = new Array(end).fill(0).map((value, index) => index)
+export function range(end: number): Sparray<number>
+export function range(start: number, end: number): Sparray<number>
+export function range(start: number, end?: number): Sparray<number> {
+
+  if (typeof end === 'undefined') {
+    end = start
+    start = 0
+  }
+
+  const data: number[] = []
+  for (let i = start; i < end; i++)
+    data.push(i)
+
   return new Sparray<number>(data)
 }
 
