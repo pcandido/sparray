@@ -153,8 +153,26 @@ describe('Sparray', () => {
       const data = [1, 2, 3, 4, 5]
       const sparray = new Sparray(data)
       data.push(6)
-      
+
       assertEqual(sparray, [1, 2, 3, 4, 5])
+    })
+  })
+
+  describe('toArray', () => {
+    it('should return the values of sparray as an array', () => {
+      const data = [1, 2, 3]
+      const sparray = from(data)
+
+      expect(sparray.toArray()).toEqual(data)
+    })
+
+    it('should produce an array that does not impact sparray if changed', () => {
+      const sparray = from([1, 2, 3])
+      const exported = sparray.toArray()
+      exported.push(4)
+
+      expect(exported).toEqual([1, 2, 3, 4])
+      assertEqual(sparray, [1, 2, 3])
     })
   })
 

@@ -132,4 +132,11 @@ export class Sparray<T>{
     this.data = [...data]
   }
 
+  /**
+   * Returns the raw data as a native array
+   */
+  toArray(): T[] {
+    return [...this.data]
+  }
+
 }
