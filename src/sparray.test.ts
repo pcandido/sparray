@@ -78,6 +78,18 @@ describe('Sparray factories', () => {
       assertEqual(range(2, 10, 2), [2, 4, 6, 8])
       assertEqual(range(10, -10, -3), [10, 7, 4, 1, -2, -5, -8])
     })
+
+    it('should throw exception if start less than end, but step is negative', () => {
+      expect(() => { range(0, 5, -1) }).toThrow('Invalid step value: -1')
+    })
+
+    it('should throw exception if start greater than end, but step is positive', () => {
+      expect(() => { range(5, 0, 1) }).toThrow('Invalid step value: 1')
+    })
+
+    it('should throw exception if step = 0', () => {
+      expect(() => { range(0, 5, 0) }).toThrow('Invalid step value: 0')
+    })
   })
 
 })

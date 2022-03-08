@@ -60,6 +60,10 @@ export function range(start: number, end?: number, step?: number): Sparray<numbe
     step = (start < end) ? 1 : -1
   }
 
+  if((start < end && step < 0) || (start > end && step > 0) || (step == 0)){
+    throw new Error(`Invalid step value: ${step}`)
+  }
+
   const data: number[] = []
   if (start < end) {
     for (let i = start; i < end; i += step) data.push(i)
