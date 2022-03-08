@@ -192,4 +192,12 @@ describe('Sparray', () => {
     })
   })
 
+  describe('get', () => {
+    const sut = from(1, 2, 3, 4, 5)
+
+    it('should return the n-th element when use positive index', () => {
+      expect(sut.get(3)).toBe(4)
+    })
+  })
+
 })

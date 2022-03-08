@@ -1,3 +1,5 @@
+import util from 'util'
+
 /**
  * Build an empty sparray. Same of #empty()
  */
@@ -145,6 +147,10 @@ export class Sparray<T>{
     this.data = [...data]
   }
 
+  [util.inspect.custom](depth: any, opts: any): any {
+    return this.data
+  }
+
   /**
    * Returns the raw data as a native array
    */
@@ -157,6 +163,10 @@ export class Sparray<T>{
    */
   toSet(): Set<T> {
     return new Set(this.data)
+  }
+
+  get(index: number): T {
+    return this.data[index]
   }
 
 }
