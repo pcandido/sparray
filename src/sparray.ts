@@ -47,7 +47,17 @@ export function from<T>(...data: any): Sparray<T> {
  * @param end
  */
 export function range(end: number): Sparray<number>
+
+/**
+ * Build a sparray with numbers from start (inclusive) to end (exclusive)
+ * @param end
+ */
 export function range(start: number, end: number): Sparray<number>
+
+/**
+ * Build a sparray with numbers from start (inclusive) to end (exclusive), incrementing/decrementing by step value
+ * @param end
+ */
 export function range(start: number, end: number, step: number): Sparray<number>
 export function range(start: number, end?: number, step?: number): Sparray<number> {
 
@@ -60,7 +70,7 @@ export function range(start: number, end?: number, step?: number): Sparray<numbe
     step = (start < end) ? 1 : -1
   }
 
-  if((start < end && step < 0) || (start > end && step > 0) || (step == 0)){
+  if ((start < end && step < 0) || (start > end && step > 0) || (step == 0)) {
     throw new Error(`Invalid step value: ${step}`)
   }
 
@@ -72,6 +82,18 @@ export function range(start: number, end?: number, step?: number): Sparray<numbe
   }
 
   return new Sparray<number>(data)
+}
+
+/**
+ * Build a sparray by repeating value for n times
+ * @param value the value will fill the sparray
+ * @param times quantity of values to fill sparray
+ */
+export function repeat<T>(value: T, times: number): Sparray<T> {
+  if (times < 0) throw new Error(`Invalid "times" value: ${times}`)
+
+  const data = new Array(times).fill(value)
+  return new Sparray(data)
 }
 
 /**
