@@ -1,4 +1,4 @@
-import { from, isSparray, Sparray } from './sparray'
+import { from, range, isSparray, Sparray } from './sparray'
 
 function assertEqual<T>(actual: Sparray<T>, expected: T[]) {
   expect(actual).toEqual({ data: expected })
@@ -56,6 +56,13 @@ describe('Sparray factories', () => {
       assertEqual(from(new Set([1, 1, 2, 3])), [1, 2, 3])
     })
 
+  })
+
+  describe('range', () => {
+    it('should create a range from 0 to given value (exclusive)', () => {
+      assertEqual(range(3), [0, 1, 2])
+      assertEqual(range(5), [0, 1, 2, 3, 4])
+    })
   })
 
 })

@@ -43,6 +43,15 @@ export function from<T>(...data: any): Sparray<T> {
 }
 
 /**
+ * Build a sparray with numbers from 0 (inclusive) to end (exclusive)
+ * @param end
+ */
+export function range(end: number) {
+  const data = new Array(end).fill(0).map((value, index) => index)
+  return new Sparray<number>(data)
+}
+
+/**
  * Determines if an object is an instance of sparray
  * @param object - object to verify
  */
