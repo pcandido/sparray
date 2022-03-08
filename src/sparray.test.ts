@@ -213,6 +213,11 @@ describe('Sparray', () => {
       const sut = from(1, 2, 3)
       expect(sut.length).toBe(3)
     })
+
+    it('should return 0 for empty arrays', () => {
+      const sut = empty()
+      expect(sut.length).toBe(0)
+    })
   })
 
 })
