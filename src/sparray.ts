@@ -244,4 +244,8 @@ export class Sparray<T>{
     return this.data.entries()
   }
 
+  [Symbol.iterator]() {
+    return this.values()
+  }
+
 }
