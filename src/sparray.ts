@@ -307,4 +307,9 @@ export class Sparray<T>{
       return this.data.reduceRight((previous, current, i) => reduceFn(previous, current, i, this), initialValue)
   }
 
+  filter(filterFn: (element: T, index: number, sparray: Sparray<T>) => boolean): Sparray<T> {
+    const filtered = this.data.filter((element, index) => filterFn(element, index, this))
+    return from(filtered)
+  }
+
 }

@@ -369,4 +369,22 @@ describe('Sparray', () => {
       expect(reduceFn).toHaveBeenNthCalledWith(3, 'previous value', 2, 1, sut)
     })
   })
+
+  describe('filter', () => {
+    const sut = from(1, 2, 3, 4, 5)
+
+    it('should return a new sparray without the filtered out elements', () => {
+      assertEqual(sut.filter(a => a > 2), [3, 4, 5])
+      assertEqual(sut.filter(a => a != 3), [1, 2, 4, 5])
+    })
+
+    it('should provide element, index and sparray as filterFn params', () => {
+      const filterFn = jest.fn().mockReturnValue(true)
+      sut.filter(filterFn)
+
+      expect(filterFn).toBeCalledTimes(5)
+      expect(filterFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(filterFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
+    })
+  })
 })
