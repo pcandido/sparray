@@ -222,5 +222,11 @@ export class Sparray<T>{
     return countMatches
   }
 
+  /**
+   * Returns a key iterator of the sparray.
+   */
+  keys(): IterableIterator<number> {
+    return this.data.keys()
+  }
 
 }

@@ -263,4 +263,16 @@ describe('Sparray', () => {
     })
   })
 
+  describe('keys', () => {
+    it('should return an iterable of keys', () => {
+      const sut = from(1, 2, 3)
+      const keys = sut.keys()
+
+      expect(keys.next()).toEqual({ value: 0, done: false })
+      expect(keys.next()).toEqual({ value: 1, done: false })
+      expect(keys.next()).toEqual({ value: 2, done: false })
+      expect(keys.next()).toEqual({ value: undefined, done: true })
+    })
+  })
+
 })
