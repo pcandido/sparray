@@ -208,6 +208,42 @@ describe('Sparray', () => {
     })
   })
 
+  describe('keys', () => {
+    it('should return an iterable of keys', () => {
+      const sut = from(1, 2, 3)
+      const keys = sut.keys()
+
+      expect(keys.next()).toEqual({ value: 0, done: false })
+      expect(keys.next()).toEqual({ value: 1, done: false })
+      expect(keys.next()).toEqual({ value: 2, done: false })
+      expect(keys.next()).toEqual({ value: undefined, done: true })
+    })
+  })
+
+  describe('values', () => {
+    it('should return an iterable of values', () => {
+      const sut = from(1, 2, 3)
+      const values = sut.values()
+
+      expect(values.next()).toEqual({ value: 1, done: false })
+      expect(values.next()).toEqual({ value: 2, done: false })
+      expect(values.next()).toEqual({ value: 3, done: false })
+      expect(values.next()).toEqual({ value: undefined, done: true })
+    })
+  })
+
+  describe('entries', () => {
+    it('should return an interable of entries', () => {
+      const sut = from(1, 2, 3)
+      const entries = sut.entries()
+
+      expect(entries.next()).toEqual({ value: [0, 1], done: false })
+      expect(entries.next()).toEqual({ value: [1, 2], done: false })
+      expect(entries.next()).toEqual({ value: [2, 3], done: false })
+      expect(entries.next()).toEqual({ value: undefined, done: true })
+    })
+  })
+
   describe('length', () => {
     it('should return the length of sparray', () => {
       const sut = from(1, 2, 3)
@@ -263,39 +299,20 @@ describe('Sparray', () => {
     })
   })
 
-  describe('keys', () => {
-    it('should return an iterable of keys', () => {
-      const sut = from(1, 2, 3)
-      const keys = sut.keys()
-
-      expect(keys.next()).toEqual({ value: 0, done: false })
-      expect(keys.next()).toEqual({ value: 1, done: false })
-      expect(keys.next()).toEqual({ value: 2, done: false })
-      expect(keys.next()).toEqual({ value: undefined, done: true })
+  describe('map', () => {
+    it('should transform elements according to mapFn', () => {
+      const sut = from(1, 2, 3).map(a => { console.log(this); return a * 2 })
+      assertEqual(sut, [2, 4, 6])
     })
-  })
 
-  describe('values', () => {
-    it('should return an iterable of values', () => {
+    it('should provide element, index and sparray as mapFn params', () => {
+      const mapFn = jest.fn()
       const sut = from(1, 2, 3)
-      const values = sut.values()
+      sut.map(mapFn)
 
-      expect(values.next()).toEqual({ value: 1, done: false })
-      expect(values.next()).toEqual({ value: 2, done: false })
-      expect(values.next()).toEqual({ value: 3, done: false })
-      expect(values.next()).toEqual({ value: undefined, done: true })
-    })
-  })
-
-  describe('entries', () => {
-    it('should return an interable of entries', () => {
-      const sut = from(1, 2, 3)
-      const entries = sut.entries()
-
-      expect(entries.next()).toEqual({ value: [0, 1], done: false })
-      expect(entries.next()).toEqual({ value: [1, 2], done: false })
-      expect(entries.next()).toEqual({ value: [2, 3], done: false })
-      expect(entries.next()).toEqual({ value: undefined, done: true })
+      expect(mapFn).toBeCalledTimes(3)
+      expect(mapFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(mapFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
     })
   })
 })

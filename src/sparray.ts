@@ -185,6 +185,32 @@ export class Sparray<T>{
   }
 
   /**
+  * Returns a key iterator of the sparray.
+  */
+  keys(): IterableIterator<number> {
+    return this.data.keys()
+  }
+
+  /**
+   * Returns a value iterator of the sparray.
+   */
+  values(): IterableIterator<T> {
+    return this.data.values()
+  }
+
+  /**
+   * Returns an entry iterator of the sparray.
+   * Each element is a two-position array, the index, and the value.
+   */
+  entries(): IterableIterator<[number, T]> {
+    return this.data.entries()
+  }
+
+  [Symbol.iterator]() {
+    return this.values()
+  }
+
+  /**
   * The number of elements of the sparray.
   * @see size()
   * @see count()
@@ -222,30 +248,9 @@ export class Sparray<T>{
     return countMatches
   }
 
-  /**
-   * Returns a key iterator of the sparray.
-   */
-  keys(): IterableIterator<number> {
-    return this.data.keys()
-  }
-
-  /**
-   * Returns a value iterator of the sparray.
-   */
-  values(): IterableIterator<T> {
-    return this.data.values()
-  }
-
-  /**
-   * Returns an entry iterator of the sparray.
-   * Each element is a two-position array, the index, and the value.
-   */
-  entries(): IterableIterator<[number, T]> {
-    return this.data.entries()
-  }
-
-  [Symbol.iterator]() {
-    return this.values()
+  map<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R): Sparray<R> {
+    const mappedData = this.data.map((element, index) => mapFn(element, index, this))
+    return from(mappedData)
   }
 
 }
