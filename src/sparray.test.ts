@@ -275,4 +275,16 @@ describe('Sparray', () => {
     })
   })
 
+  describe('values', () => {
+    it('should return an iterable of values', () => {
+      const sut = from(1, 2, 3)
+      const values = sut.values()
+
+      expect(values.next()).toEqual({ value: 1, done: false })
+      expect(values.next()).toEqual({ value: 2, done: false })
+      expect(values.next()).toEqual({ value: 3, done: false })
+      expect(values.next()).toEqual({ value: undefined, done: true })
+    })
+  })
+
 })

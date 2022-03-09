@@ -229,4 +229,11 @@ export class Sparray<T>{
     return this.data.keys()
   }
 
+  /**
+   * Returns a value iterator of the sparray.
+   */
+  values(): IterableIterator<T> {
+    return this.data.values()
+  }
+
 }
