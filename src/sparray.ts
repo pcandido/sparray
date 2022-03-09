@@ -253,4 +253,14 @@ export class Sparray<T>{
     return from(mappedData)
   }
 
+  reduce(reduceFn: (previousValue: T, currentValue: T, currentIndex: number, sparray: Sparray<T>) => T): T
+  reduce(reduceFn: (previousValue: T, currentValue: T, currentIndex: number, sparray: Sparray<T>) => T, initialValue: T): T
+  reduce<R>(reduceFn: (previousValue: R, currentValue: T, currentIndex: number, sparray: Sparray<T>) => R, initialValue: R): R
+  reduce(reduceFn: (previousValue: any, currentValue: T, currentIndex: number, sparray: Sparray<T>) => any, initialValue?: any): any {
+    if (typeof initialValue === 'undefined')
+      return this.data.reduce((previous, current, i) => reduceFn(previous, current, i, this))
+    else
+      return this.data.reduce((previous, current, i) => reduceFn(previous, current, i, this), initialValue)
+  }
+
 }
