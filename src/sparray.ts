@@ -4,19 +4,16 @@ import util from 'util'
  * Build an empty sparray. Same of #empty()
  */
 export function from<T>(): Sparray<T>
-
 /**
  * Build a sparray from another array
  * @param data array of elements
  */
 export function from<T>(data: T[]): Sparray<T>
-
 /**
  * Build a sparray from a set of elements
  * @param data set of elements
  */
 export function from<T>(data: Set<T>): Sparray<T>
-
 /**
  * Build a sparray from the colection of the arguments
  * @param data collection of elements
@@ -49,13 +46,11 @@ export function from<T>(...data: any): Sparray<T> {
  * @param end
  */
 export function range(end: number): Sparray<number>
-
 /**
  * Build a sparray with numbers from start (inclusive) to end (exclusive)
  * @param end
  */
 export function range(start: number, end: number): Sparray<number>
-
 /**
  * Build a sparray with numbers from start (inclusive) to end (exclusive), incrementing/decrementing by step value
  * @param end
@@ -248,13 +243,35 @@ export class Sparray<T>{
     return countMatches
   }
 
+  /**
+   * Build a new sparray by transforming the elements according to the mapFn function.
+   * For each element in sparray, mapFn must return a new element (derived or not from the original one).
+   * @param mapFn - transformation function
+   */
   map<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R): Sparray<R> {
     const mappedData = this.data.map((element, index) => mapFn(element, index, this))
     return from(mappedData)
   }
 
+  /**
+   * Aggregate the elements of sparray, pair-by-pair, according to the reduceFn,
+   * accumulating the aggregation until the last element.
+   * @param reduceFn - aggragation (reducer) function
+   */
   reduce(reduceFn: (previousValue: T, currentValue: T, currentIndex: number, sparray: Sparray<T>) => T): T
+  /**
+   * Aggregate the elements of sparray, pair-by-pair, according to the reduceFn,
+   * accumulating the aggregation until the last element.
+   * @param reduceFn - aggragation (reducer) function
+   * @param initialValue - initial value to the reduce chain
+   */
   reduce(reduceFn: (previousValue: T, currentValue: T, currentIndex: number, sparray: Sparray<T>) => T, initialValue: T): T
+  /**
+   * Aggregate the elements of sparray, pair-by-pair, according to the reduceFn,
+   * accumulating the aggregation until the last element.
+   * @param reduceFn - aggragation (reducer) function
+   * @param initialValue - initial value to the reduce chain
+   */
   reduce<R>(reduceFn: (previousValue: R, currentValue: T, currentIndex: number, sparray: Sparray<T>) => R, initialValue: R): R
   reduce(reduceFn: (previousValue: any, currentValue: T, currentIndex: number, sparray: Sparray<T>) => any, initialValue?: any): any {
     if (typeof initialValue === 'undefined')
