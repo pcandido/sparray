@@ -287,4 +287,15 @@ describe('Sparray', () => {
     })
   })
 
+  describe('entries', () => {
+    it('should return an interable of entries', () => {
+      const sut = from(1, 2, 3)
+      const entries = sut.entries()
+
+      expect(entries.next()).toEqual({ value: [0, 1], done: false })
+      expect(entries.next()).toEqual({ value: [1, 2], done: false })
+      expect(entries.next()).toEqual({ value: [2, 3], done: false })
+      expect(entries.next()).toEqual({ value: undefined, done: true })
+    })
+  })
 })

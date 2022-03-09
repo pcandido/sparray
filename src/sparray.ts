@@ -236,4 +236,12 @@ export class Sparray<T>{
     return this.data.values()
   }
 
+  /**
+   * Returns an entry iterator of the sparray.
+   * Each element is a two-position array, the index, and the value.
+   */
+  entries(): IterableIterator<[number, T]> {
+    return this.data.entries()
+  }
+
 }
