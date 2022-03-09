@@ -232,4 +232,35 @@ describe('Sparray', () => {
     })
   })
 
+  describe('count', () => {
+    const sut = from(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+    it('should return sparray size if no condition is given', () => {
+      expect(sut.count()).toBe(10)
+    })
+
+    it('should return 0 if no element matches the conditionFn', () => {
+      expect(sut.count(() => false)).toEqual(0)
+    })
+
+    it('should return sparray length if all elements match the conditionFn', () => {
+      expect(sut.count(() => true)).toEqual(10)
+    })
+
+    it('should count just elements that matches the conditionFn', () => {
+      expect(sut.count(a => a > 5)).toBe(5)
+      expect(sut.count(a => a == 5)).toBe(1)
+      expect(sut.count((a, i) => i < 2)).toBe(2)
+    })
+
+    it('should provide element, index and sparray as conditionFn params', () => {
+      const conditionFn = jest.fn().mockReturnValue(true)
+      sut.count(conditionFn)
+
+      expect(conditionFn).toBeCalledTimes(10)
+      expect(conditionFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(conditionFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
+    })
+  })
+
 })

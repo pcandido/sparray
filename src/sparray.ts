@@ -189,7 +189,7 @@ export class Sparray<T>{
   * @see size()
   * @see count()
   */
-  get length() {
+  get length(): number {
     return this.data.length
   }
 
@@ -199,8 +199,28 @@ export class Sparray<T>{
    * @see length
    * @see count()
    */
-  size() {
+  size(): number {
     return this.length
   }
+
+  /**
+   * Counts the number of elements.
+   * If a conditionFn is provided, only the elements that match the condition will be counted.
+   *
+   * @param conditionFn - an optional condition function
+   */
+  count(conditionFn?: (element: T, index: number, sparray: Sparray<T>) => boolean): number {
+    if (!conditionFn)
+      return this.length
+
+    let countMatches = 0
+    for (let i = 0; i < this.length; i++) {
+      if (conditionFn(this.data[i], i, this))
+        countMatches++
+    }
+
+    return countMatches
+  }
+
 
 }
