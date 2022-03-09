@@ -280,4 +280,31 @@ export class Sparray<T>{
       return this.data.reduce((previous, current, i) => reduceFn(previous, current, i, this), initialValue)
   }
 
+  /**
+   * Aggregate the elements of sparray, pair-by-pair, according to the reduceFn,
+   * accumulating the aggregation from the last to the first element.
+   * @param reduceFn - aggragation (reducer) function
+   */
+  reduceRight(reduceFn: (previousValue: T, currentValue: T, currentIndex: number, sparray: Sparray<T>) => T): T
+  /**
+   * Aggregate the elements of sparray, pair-by-pair, according to the reduceFn,
+   * accumulating the aggregation from the last to the first element.
+   * @param reduceFn - aggragation (reducer) function
+   * @param initialValue - initial value to the reduce chain
+   */
+  reduceRight(reduceFn: (previousValue: T, currentValue: T, currentIndex: number, sparray: Sparray<T>) => T, initialValue: T): T
+  /**
+   * Aggregate the elements of sparray, pair-by-pair, according to the reduceFn,
+   * accumulating the aggregation from the last to the first element.
+   * @param reduceFn - aggragation (reducer) function
+   * @param initialValue - initial value to the reduce chain
+   */
+  reduceRight<R>(reduceFn: (previousValue: R, currentValue: T, currentIndex: number, sparray: Sparray<T>) => R, initialValue: R): R
+  reduceRight(reduceFn: (previousValue: any, currentValue: T, currentIndex: number, sparray: Sparray<T>) => any, initialValue?: any): any {
+    if (typeof initialValue === 'undefined')
+      return this.data.reduceRight((previous, current, i) => reduceFn(previous, current, i, this))
+    else
+      return this.data.reduceRight((previous, current, i) => reduceFn(previous, current, i, this), initialValue)
+  }
+
 }

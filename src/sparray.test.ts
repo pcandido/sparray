@@ -342,4 +342,31 @@ describe('Sparray', () => {
       expect(reduceFn).toHaveBeenNthCalledWith(3, 'previous value', 4, 3, sut)
     })
   })
+
+  describe('reduceRight', () => {
+    const sut = from(1, 2, 3, 4, 5)
+
+    it('should reduce the sparray according to reduceFn, from right to left', () => {
+      const reducedSum = sut.reduceRight((a, b) => a - b)
+      const reducedProduct = sut.reduceRight((a, b) => a * b)
+
+      expect(reducedSum).toBe(-5)
+      expect(reducedProduct).toBe(120)
+    })
+
+    it('should reduce the sparray according to reduceFn, and starting by a initialValue', () => {
+      const reducedObj = sut.reduceRight((a, b) => a + b, '')
+      expect(reducedObj).toBe('54321')
+    })
+
+    it('should provide previews and current elemenet, current index and sparray as reduceFn params', () => {
+      const reduceFn = jest.fn().mockReturnValue('previous value')
+      sut.reduceRight(reduceFn)
+
+      expect(reduceFn).toBeCalledTimes(4)
+      expect(reduceFn).toHaveBeenNthCalledWith(1, 5, 4, 3, sut)
+      expect(reduceFn).toHaveBeenNthCalledWith(2, 'previous value', 3, 2, sut)
+      expect(reduceFn).toHaveBeenNthCalledWith(3, 'previous value', 2, 1, sut)
+    })
+  })
 })
