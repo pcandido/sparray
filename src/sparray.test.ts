@@ -301,7 +301,7 @@ describe('Sparray', () => {
 
   describe('map', () => {
     it('should transform elements according to mapFn', () => {
-      const sut = from(1, 2, 3).map(a => { console.log(this); return a * 2 })
+      const sut = from(1, 2, 3).map(a => a * 2)
       assertEqual(sut, [2, 4, 6])
     })
 
