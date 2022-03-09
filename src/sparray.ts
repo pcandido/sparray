@@ -320,6 +320,12 @@ export class Sparray<T>{
     return fromArray(filtered)
   }
 
+  /**
+   * Iterates over each element of the sparray.
+   * The own (unchanged) sparray is returned at the end, thus other methods can be chained.
+   * @param forEachFn - function to be executed over each element
+   * @param thisArg - object to be used as this in forEachFn
+   */
   forEach(forEachFn: (element: T, index: number, sparray: Sparray<T>) => void): Sparray<T> {
     this.data.filter((element, index) => forEachFn(element, index, this))
     return this
