@@ -1,5 +1,9 @@
 import util from 'util'
 
+function fromArray<T>(data: T[]): Sparray<T> {
+  return new Sparray(data)
+}
+
 /**
  * Build an empty sparray. Same of #empty()
  */
@@ -21,24 +25,24 @@ export function from<T>(data: Set<T>): Sparray<T>
 export function from<T>(...data: T[]): Sparray<T>
 export function from<T>(...data: any): Sparray<T> {
   if (data.length == 0)
-    return new Sparray([])
+    return fromArray([])
 
   if (data.length === 1) {
     const singleValue = data[0]
 
     if (isSparray(singleValue))
-      return new Sparray(singleValue.data)
+      return fromArray(singleValue.data)
 
     if (singleValue instanceof Set)
-      return new Sparray(Array.from(singleValue))
+      return fromArray(Array.from(singleValue))
 
     if (Array.isArray(singleValue))
-      return new Sparray(singleValue)
+      return fromArray(singleValue)
 
-    return new Sparray([singleValue])
+    return fromArray([singleValue])
   }
 
-  return new Sparray(data)
+  return fromArray(data)
 }
 
 /**
@@ -78,7 +82,7 @@ export function range(start: number, end?: number, step?: number): Sparray<numbe
     for (let i = start; i > end; i += step) data.push(i)
   }
 
-  return new Sparray<number>(data)
+  return fromArray<number>(data)
 }
 
 /**
@@ -100,14 +104,14 @@ export function repeat<T>(value: T, times: number): Sparray<T> {
   if (times < 0) throw new Error(`Invalid "times" value: ${times}`)
 
   const data = new Array(times).fill(value)
-  return new Sparray(data)
+  return fromArray(data)
 }
 
 /**
  * Build an empty sparray
  */
 export function empty<T>(): Sparray<T> {
-  return new Sparray<T>([])
+  return fromArray<T>([])
 }
 
 /**
@@ -250,7 +254,7 @@ export class Sparray<T>{
    */
   map<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R): Sparray<R> {
     const mappedData = this.data.map((element, index) => mapFn(element, index, this))
-    return from(mappedData)
+    return fromArray(mappedData)
   }
 
   /**
@@ -309,7 +313,7 @@ export class Sparray<T>{
 
   filter(filterFn: (element: T, index: number, sparray: Sparray<T>) => boolean): Sparray<T> {
     const filtered = this.data.filter((element, index) => filterFn(element, index, this))
-    return from(filtered)
+    return fromArray(filtered)
   }
 
 }
