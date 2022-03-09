@@ -316,4 +316,9 @@ export class Sparray<T>{
     return fromArray(filtered)
   }
 
+  forEach(forEachFn: (element: T, index: number, sparray: Sparray<T>) => void): Sparray<T> {
+    this.data.filter((element, index) => forEachFn(element, index, this))
+    return this
+  }
+
 }

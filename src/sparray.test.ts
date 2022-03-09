@@ -387,4 +387,22 @@ describe('Sparray', () => {
       expect(filterFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
     })
   })
+
+  describe('forEach', () => {
+    const sut = from(1, 2, 3)
+
+    it('should return the same (unchanged) sparray', () => {
+      const returnedValue = sut.forEach(() => 'returned value')
+      assertEqual(returnedValue, [1, 2, 3])
+    })
+
+    it('should provide element, index and sparray as forEachFn params', () => {
+      const forEachFn = jest.fn()
+      sut.forEach(forEachFn)
+
+      expect(forEachFn).toBeCalledTimes(3)
+      expect(forEachFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(forEachFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
+    })
+  })
 })
