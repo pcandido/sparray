@@ -164,11 +164,16 @@ export class Sparray<T>{
     return new Set(this.data)
   }
 
-  private resolveIndex(index: number): number {
-    if (index < 0)
-      return this.data.length + index
-
-    return index
+  /**
+   * Gets an element from sparray by index.
+   * Negative indices will get elements backward.
+   * Out of bound indices will return undefined.
+   *
+   * @deprecated use .at()
+   * @param index - the position of the element that should be gotten
+   */
+  get(index: number): T | undefined {
+    return this.at(index)
   }
 
   /**
@@ -178,9 +183,8 @@ export class Sparray<T>{
    *
    * @param index - the position of the element that should be gotten
    */
-  get(index: number): T {
-    const resolvedIndex = this.resolveIndex(index)
-    return this.data[resolvedIndex]
+  at(index: number): T | undefined {
+    return this.data.at(index)
   }
 
   /**
