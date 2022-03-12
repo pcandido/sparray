@@ -316,6 +316,24 @@ describe('Sparray', () => {
     })
   })
 
+  describe('flatMap', () => {
+    const sut = from(1, 2, 3)
+
+    it('should transform each element of sparray in a new array, and flat the array collection back to a sparray', () => {
+      const flatMapped = sut.flatMap(a => new Array(a).fill(a))
+      assertEqual(flatMapped, [1, 2, 2, 3, 3, 3])
+    })
+
+    it('should provide element, index and sparray as mapFn params', () => {
+      const mapFn = jest.fn().mockReturnValue([])
+      sut.flatMap(mapFn)
+
+      expect(mapFn).toBeCalledTimes(3)
+      expect(mapFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(mapFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
+    })
+  })
+
   describe('reduce', () => {
     const sut = from(1, 2, 3, 4, 5)
 

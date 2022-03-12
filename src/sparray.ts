@@ -258,6 +258,15 @@ export class Sparray<T>{
   }
 
   /**
+   * Build a new sparray by transforming the elements according to the mapFn function and flatten the resultant arrays.
+   * @param mapFn - transformation function
+   */
+  flatMap<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R[]): Sparray<R> {
+    const mappedData = this.data.flatMap((element, index) => mapFn(element, index, this))
+    return fromArray(mappedData)
+  }
+
+  /**
    * Aggregate the elements of sparray, pair-by-pair, according to the reduceFn,
    * accumulating the aggregation until the last element.
    * @param reduceFn - aggragation (reducer) function
