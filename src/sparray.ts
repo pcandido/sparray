@@ -1,6 +1,11 @@
 import util from 'util'
 
-function fromArray<T>(data: T[]): Sparray<T> {
+function fromArray(data: number[]): NumericSparray
+function fromArray<T>(data: T[]): Sparray<T>
+function fromArray<T>(data: T[]): Sparray<T> | NumericSparray {
+  if (data.every(element => typeof element === 'number'))
+    return new NumericSparray((data as unknown) as number[])
+
   return new Sparray(data)
 }
 
@@ -9,29 +14,44 @@ function fromArray<T>(data: T[]): Sparray<T> {
  */
 export function from<T>(): Sparray<T>
 /**
+ * Build a numericSparray from another numeric array
+ * @param data array of numbers
+ */
+export function from(data: number[]): NumericSparray
+/**
  * Build a sparray from another array
  * @param data array of elements
  */
 export function from<T>(data: T[]): Sparray<T>
+/**
+ * Build a numericSparray from a set of numbers
+ * @param data set of numbers
+ */
+export function from(data: Set<number>): NumericSparray
 /**
  * Build a sparray from a set of elements
  * @param data set of elements
  */
 export function from<T>(data: Set<T>): Sparray<T>
 /**
- * Build a sparray from the colection of the arguments
+ * Build a numericSparray from the colection of numeric arguments
+ * @param data collection of numbers
+ */
+export function from(...data: number[]): NumericSparray
+/**
+ * Build a sparray from the colection of arguments
  * @param data collection of elements
  */
 export function from<T>(...data: T[]): Sparray<T>
 export function from<T>(...data: any): Sparray<T> {
   if (data.length == 0)
-    return fromArray([])
+    return fromArray<T>([])
 
   if (data.length === 1) {
     const singleValue = data[0]
 
     if (isSparray(singleValue))
-      return fromArray(singleValue.data)
+      return fromArray((singleValue as Sparray<T>).toArray())
 
     if (singleValue instanceof Set)
       return fromArray(Array.from(singleValue))
@@ -42,25 +62,25 @@ export function from<T>(...data: any): Sparray<T> {
     return fromArray([singleValue])
   }
 
-  return fromArray(data)
+  return fromArray<T>(data)
 }
 
 /**
  * Build a sparray with numbers from 0 (inclusive) to end (exclusive)
  * @param end
  */
-export function range(end: number): Sparray<number>
+export function range(end: number): NumericSparray
 /**
  * Build a sparray with numbers from start (inclusive) to end (exclusive)
  * @param end
  */
-export function range(start: number, end: number): Sparray<number>
+export function range(start: number, end: number): NumericSparray
 /**
  * Build a sparray with numbers from start (inclusive) to end (exclusive), incrementing/decrementing by step value
  * @param end
  */
-export function range(start: number, end: number, step: number): Sparray<number>
-export function range(start: number, end?: number, step?: number): Sparray<number> {
+export function range(start: number, end: number, step: number): NumericSparray
+export function range(start: number, end?: number, step?: number): NumericSparray {
 
   if (typeof end === 'undefined') {
     end = start
@@ -86,20 +106,35 @@ export function range(start: number, end?: number, step?: number): Sparray<numbe
 }
 
 /**
+ * Build a NumericSparray by repeating value for n times
+ * @param value the value will fill the sparray
+ * @param times quantity of values to fill sparray
+ * @deprecated Use #repeat(value, times)
+ */
+export function fillOf(times: number, value: number): NumericSparray
+/**
  * Build a sparray by repeating value for n times
  * @param value the value will fill the sparray
  * @param times quantity of values to fill sparray
  * @deprecated Use #repeat(value, times)
  */
-export function fillOf<T>(times: number, value: T): Sparray<T> {
+export function fillOf<T>(times: number, value: T): Sparray<T>
+export function fillOf<T>(times: number, value: any): Sparray<T> | NumericSparray {
   return repeat(value, times)
 }
 
+/**
+ * Build a NumericSparray by repeating value for n times
+ * @param value the value will fill the sparray
+ * @param times quantity of values to fill sparray
+ */
+export function repeat(value: number, times: number): NumericSparray
 /**
  * Build a sparray by repeating value for n times
  * @param value the value will fill the sparray
  * @param times quantity of values to fill sparray
  */
+export function repeat<T>(value: T, times: number): Sparray<T>
 export function repeat<T>(value: T, times: number): Sparray<T> {
   if (times < 0) throw new Error(`Invalid "times" value: ${times}`)
 

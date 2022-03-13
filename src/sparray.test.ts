@@ -1,4 +1,4 @@
-import { from, range, repeat, empty, isSparray, Sparray } from './sparray'
+import { from, range, repeat, empty, isSparray, Sparray, NumericSparray } from './sparray'
 
 function assertEqual<T>(actual: Sparray<T>, expected: T[]) {
   expect(actual).toEqual({ _data: expected })
@@ -56,6 +56,16 @@ describe('Sparray factories', () => {
       assertEqual(from(new Set([1, 1, 2, 3])), [1, 2, 3])
     })
 
+    it('should create NumericSparray if given values are numeric', () => {
+      const sutArguments = from(1, 2, 3)
+      const sutArray = from([1, 2, 3])
+      const sutSet = from(new Set([1, 2, 3]))
+
+      expect(sutArguments).toBeInstanceOf(NumericSparray)
+      expect(sutArray).toBeInstanceOf(NumericSparray)
+      expect(sutSet).toBeInstanceOf(NumericSparray)
+    })
+
   })
 
   describe('range', () => {
@@ -96,6 +106,11 @@ describe('Sparray factories', () => {
     it('should create a sparray of given times the given value"', () => {
       assertEqual(repeat('hello', 5), ['hello', 'hello', 'hello', 'hello', 'hello'])
       assertEqual(repeat({ field: 2 }, 3), [{ field: 2 }, { field: 2 }, { field: 2 }])
+    })
+
+    it('should create NumericSparray if value is numeric', () => {
+      const sut = repeat(1, 3)
+      expect(sut).toBeInstanceOf(NumericSparray)
     })
 
     it('should throw exception if times is negative', () => {
@@ -875,8 +890,11 @@ describe('Sparray', () => {
     })
 
     it('should reuturn values separated by comma and inside brackets', () => {
-      const sut = from(1,2,3)
+      const sut = from(1, 2, 3)
       expect(sut.toString()).toBe('[ 1, 2, 3 ]')
     })
+
+
+
   })
 })
