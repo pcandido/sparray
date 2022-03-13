@@ -684,4 +684,23 @@ describe('Sparray', () => {
       expect(foundIndex).toBe(-1)
     })
   })
+
+  describe('lastIndexOf', () => {
+    const sut = from(1, 2, 3, 3)
+
+    it('should return the index of the found element', () => {
+      const foundIndex = sut.lastIndexOf(2)
+      expect(foundIndex).toBe(1)
+    })
+
+    it('should return the last index of the found element', () => {
+      const foundIndex = sut.lastIndexOf(3)
+      expect(foundIndex).toBe(3)
+    })
+
+    it('should return -1 if the element was not found', () => {
+      const foundIndex = sut.lastIndexOf(5)
+      expect(foundIndex).toBe(-1)
+    })
+  })
 })
