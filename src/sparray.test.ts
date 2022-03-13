@@ -745,4 +745,25 @@ describe('Sparray', () => {
       expect(includesAll).toBe(false)
     })
   })
+
+  describe('reverse', () => {
+    it('should build a reverse-order sparray', () => {
+      const sut = from(1, 2, 3)
+      const reversed = sut.reverse()
+      assertEqual(reversed, [3, 2, 1])
+    })
+
+    it('should return an empty sparray if empty sparray was given', () => {
+      const sut = empty()
+      const reversed = sut.reverse()
+      assertEqual(reversed, [])
+    })
+
+    it('should not change the current sparray', () => {
+      const sut = from(1, 2, 3)
+      const reversed = sut.reverse()
+      assertEqual(sut, [1, 2, 3])
+      assertEqual(reversed, [3, 2, 1])
+    })
+  })
 })

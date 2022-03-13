@@ -490,4 +490,10 @@ export class Sparray<T>{
     return values.some(element => this.data.includes(element))
   }
 
+  /**
+   * Builds a new sparray with the reverse order
+   */
+  reverse(): Sparray<T> {
+    return fromArray(this.toArray().reverse())
+  }
 }
