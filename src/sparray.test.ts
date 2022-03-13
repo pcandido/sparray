@@ -766,4 +766,24 @@ describe('Sparray', () => {
       assertEqual(reversed, [3, 2, 1])
     })
   })
+
+  describe('sort', () => {
+    const sut = from(3, 1, 5, 4, 2)
+
+    it('should sort by natural order if no sortFn was given', () => {
+      const sorted = sut.sort()
+      assertEqual(sorted, [1, 2, 3, 4, 5])
+    })
+
+    it('should not change the current sparray', () => {
+      const sut = from(3, 2, 1)
+      sut.sort()
+      assertEqual(sut, [3, 2, 1])
+    })
+
+    it('should consider sortFn to sort sparray', () => {
+      const sorted = sut.sort((a, b) => b - a)
+      assertEqual(sorted, [5, 4, 3, 2, 1])
+    })
+  })
 })

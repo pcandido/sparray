@@ -496,4 +496,17 @@ export class Sparray<T>{
   reverse(): Sparray<T> {
     return fromArray(this.toArray().reverse())
   }
+
+  /**
+   * Builds a new sparray with the elements sorted by the natural order
+   */
+  sort(): Sparray<T>
+  /**
+   * Builds a new sparray with the elements sorted by the custom sortFn
+   * @param sortFn - custom sort condition
+   */
+  sort(sortFn: (a: T, b: T) => number): Sparray<T>
+  sort(sortFn?: (a: T, b: T) => number): Sparray<T> {
+    return fromArray(this.toArray().sort(sortFn))
+  }
 }
