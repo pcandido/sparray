@@ -867,4 +867,16 @@ describe('Sparray', () => {
       assertEqual(sliced, [1, 2, 3, 4])
     })
   })
+
+  describe('toString', () => {
+    it('should return "[ ]" to empty sparrays', () => {
+      const sut = empty()
+      expect(sut.toString()).toBe('[ ]')
+    })
+
+    it('should reuturn values separated by comma and inside brackets', () => {
+      const sut = from(1,2,3)
+      expect(sut.toString()).toBe('[ 1, 2, 3 ]')
+    })
+  })
 })

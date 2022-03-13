@@ -1,4 +1,3 @@
-import { spawn } from 'child_process'
 import util from 'util'
 
 function fromArray<T>(data: T[]): Sparray<T> {
@@ -554,6 +553,17 @@ export class Sparray<T>{
    */
   slice(startIndex?: number, endIndex?: number): Sparray<T> {
     return fromArray(this.data.slice(startIndex, endIndex))
+  }
+
+  /**
+   * Returns the string representation of the sparray and its elements
+   */
+  toString(): string {
+    if (this.isEmpty()) {
+      return '[ ]'
+    } else {
+      return `[ ${this.join(', ')} ]`
+    }
   }
 
 }
