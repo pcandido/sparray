@@ -559,4 +559,48 @@ describe('Sparray', () => {
       expect(everyFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
     })
   })
+
+  describe('concat', () => {
+    it('should accept a single arrray to concact', () => {
+      const sut = from(1, 2, 3)
+      const concatted = sut.concat([4, 5])
+      assertEqual(concatted, [1, 2, 3, 4, 5])
+    })
+
+    it('should accept multiple arrays to concat', () => {
+      const sut = from(1)
+      const concatted = sut.concat([2, 3], [4, 5])
+      assertEqual(concatted, [1, 2, 3, 4, 5])
+    })
+
+    it('should accept a single sparray to concat', () => {
+      const sut = from(1, 2, 3)
+      const concatted = sut.concat(from(4, 5))
+      assertEqual(concatted, [1, 2, 3, 4, 5])
+    })
+
+    it('should accept multiple sparrays to concat', () => {
+      const sut = from(1)
+      const concatted = sut.concat(from(2, 3), from(4, 5))
+      assertEqual(concatted, [1, 2, 3, 4, 5])
+    })
+
+    it('should accept single element to concat', () => {
+      const sut = from(1, 2, 3, 4)
+      const concatted = sut.concat(5)
+      assertEqual(concatted, [1, 2, 3, 4, 5])
+    })
+
+    it('should accept multiple elements to concat', () => {
+      const sut = from(1, 2, 3)
+      const concatted = sut.concat(4, 5)
+      assertEqual(concatted, [1, 2, 3, 4, 5])
+    })
+
+    it('should accept arrays, sparrays and elements to concat', () => {
+      const sut = from(1)
+      const concatted = sut.concat([2], 3, from(4, 5))
+      assertEqual(concatted, [1, 2, 3, 4, 5])
+    })
+  })
 })

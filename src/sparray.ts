@@ -419,4 +419,19 @@ export class Sparray<T>{
     return this.data.every((element, index) => everyFn(element, index, this))
   }
 
+  /**
+   * Concatenates one or more sparrays, arrays or elements to the original sparray.
+   * The result will be a new sparray. The original sparray will not be changed.
+   *
+   * @param data - sparrays, arrays or elements to concatenate
+   */
+  concat(...data: (T | T[] | Sparray<T>)[]): Sparray<T> {
+    const unwrappedData = data.map(toConcat => {
+      if (toConcat instanceof Sparray)
+        return toConcat.toArray()
+      return toConcat
+    })
+    return fromArray(this.data.concat(...unwrappedData))
+  }
+
 }
