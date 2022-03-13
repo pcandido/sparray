@@ -1,7 +1,7 @@
 import { from, range, repeat, empty, isSparray, Sparray } from './sparray'
 
 function assertEqual<T>(actual: Sparray<T>, expected: T[]) {
-  expect(actual).toEqual({ data: expected })
+  expect(actual).toEqual({ _data: expected })
 }
 
 describe('Sparray factories', () => {
@@ -40,7 +40,7 @@ describe('Sparray factories', () => {
       const firstSparray = from(1, 2, 3)
       const secondSparray = from(firstSparray)
 
-      expect(secondSparray).toEqual({ data: [1, 2, 3] })
+      expect(secondSparray).toEqual({ _data: [1, 2, 3] })
     })
 
     it('should create a sparray from another multiple sparray', () => {
@@ -48,7 +48,7 @@ describe('Sparray factories', () => {
       const secondSparray = from(4, 5, 6)
       const thirdSparray = from([firstSparray, secondSparray])
 
-      expect(thirdSparray).toEqual({ data: [{ data: [1, 2, 3] }, { data: [4, 5, 6] }] })
+      expect(thirdSparray).toEqual({ _data: [{ _data: [1, 2, 3] }, { _data: [4, 5, 6] }] })
     })
 
     it('should create a sparray from a single set', () => {

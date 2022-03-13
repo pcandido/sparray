@@ -131,7 +131,11 @@ export function isSparray(object: any) {
  */
 export class Sparray<T>{
 
-  private data: T[]
+  private _data: T[]
+
+  protected get data() {
+    return this._data
+  }
 
   /**
    * Constructor of the sparray
@@ -143,7 +147,7 @@ export class Sparray<T>{
     if (!Array.isArray(data))
       throw new Error('Invalid data value')
 
-    this.data = [...data]
+    this._data = [...data]
   }
 
   [util.inspect.custom](depth: any, opts: any): any {
@@ -565,5 +569,9 @@ export class Sparray<T>{
       return `[ ${this.join(', ')} ]`
     }
   }
+
+}
+
+export class NumericSparray extends Sparray<number>{
 
 }
