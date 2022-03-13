@@ -273,6 +273,33 @@ export class Sparray<T>{
   }
 
   /**
+   * Builds a new sparray flatting the nested sparrays and/or arrays to the main sparray
+   * @deprecated use flat()
+   * @param depth - how deep the flat will be applied
+   */
+  flatten(depth = 1): Sparray<any> {
+    return this.flat(depth)
+  }
+
+  /**
+   * Builds a new sparray flatting the nested sparrays and/or arrays to the main sparray
+   * @param depth - how deep the flat will be applied
+   */
+  flat(depth = 1): Sparray<any> {
+    if (depth <= 0) return this
+
+    const flattedArray = this.data.reduce((a: any[], b) => {
+      if (b instanceof Sparray) {
+        return a.concat(b.toArray())
+      }
+      return a.concat(b)
+    }, [])
+
+    const flattedSparray = fromArray(flattedArray)
+    return flattedSparray.flat(depth - 1)
+  }
+
+  /**
    * Aggregate the elements of sparray, pair-by-pair, according to the reduceFn,
    * accumulating the aggregation until the last element.
    * @param reduceFn - aggragation (reducer) function

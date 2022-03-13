@@ -334,6 +334,43 @@ describe('Sparray', () => {
     })
   })
 
+  describe('flat', () => {
+    it('should flat the inner arrays to the main sparray to depth = 1', () => {
+      const sut = from([1, 2], [3, 4], [5, 6])
+      assertEqual(sut.flat(), [1, 2, 3, 4, 5, 6])
+    })
+
+    it('should flat the inner Sparrays to the main sparray to depth = 1', () => {
+      const sut = from(from(1, 2), from(3, 4), from(5, 6))
+      assertEqual(sut.flat(), [1, 2, 3, 4, 5, 6])
+    })
+
+    it('should flat the inner arrays to the main sparray to depth = 2', () => {
+      const sut = from([[1], [2, 3]], [[4, 5], [6]])
+      assertEqual(sut.flat(2), [1, 2, 3, 4, 5, 6])
+    })
+
+    it('should flat the inner Sparrays to the main sparray to depth = 2', () => {
+      const sut = from(from(from(1), from(2, 3)), from(from(4, 5), from(6)))
+      assertEqual(sut.flat(2), [1, 2, 3, 4, 5, 6])
+    })
+
+    it('should flat even when mix arrays and sparrays', () => {
+      const sut = from([from([1], [2])], [from([3], [4])])
+      assertEqual(sut.flat(3), [1, 2, 3, 4])
+    })
+
+    it('should not flat more then depth', () => {
+      const sut = from([from([1], [2])], [from([3], [4])])
+      assertEqual(sut.flat(2), [[1], [2], [3], [4]])
+    })
+
+    it('should stop flat non-array-like elements', () => {
+      const sut = from<any>(1, [2, 3], 4)
+      assertEqual(sut.flat(), [1, 2, 3, 4])
+    })
+  })
+
   describe('reduce', () => {
     const sut = from(1, 2, 3, 4, 5)
 
