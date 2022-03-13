@@ -717,4 +717,18 @@ describe('Sparray', () => {
       expect(includes).toBe(false)
     })
   })
+
+  describe('includesAll', () => {
+    const sut = from(1, 2, 3, 4, 5)
+
+    it('should return true if all the given elements exists on sparray', () => {
+      const includesAll = sut.includesAll(1, 2, 3)
+      expect(includesAll).toBe(true)
+    })
+
+    it('should return false if any of the given elements does not exist on sparray', () => {
+      const includesAll = sut.includesAll(1, 2, 30)
+      expect(includesAll).toBe(false)
+    })
+  })
 })
