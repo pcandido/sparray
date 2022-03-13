@@ -434,4 +434,12 @@ export class Sparray<T>{
     return fromArray(this.data.concat(...unwrappedData))
   }
 
+  /**
+   * Returns the first element that satisfies the condition of findFn, or undefined if no element satisfies.
+   * @param findFn - condiction to be tested
+   */
+  find(findFn: (element: T, index: number, sparray: Sparray<T>) => boolean): T | undefined {
+    return this.data.find((element, index) => findFn(element, index, this))
+  }
+
 }
