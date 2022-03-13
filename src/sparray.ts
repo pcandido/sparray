@@ -411,4 +411,12 @@ export class Sparray<T>{
     return this.data.some((element, index) => someFn(element, index, this))
   }
 
+  /**
+   * Returns true if every element produces the result true in the everyFn.
+   * @param everyFn - condiction to be tested
+   */
+  every(everyFn: (element: T, index: number, sparray: Sparray<T>) => boolean): boolean {
+    return this.data.every((element, index) => everyFn(element, index, this))
+  }
+
 }

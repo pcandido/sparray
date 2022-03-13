@@ -534,4 +534,29 @@ describe('Sparray', () => {
       expect(someFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
     })
   })
+
+  describe('every', () => {
+    it('should return true if all the elements return true to everyFn', () => {
+      const sut = from(1, 2, 3, 4, 5)
+      const allLessThan10 = sut.every(a => a < 10)
+      expect(allLessThan10).toBe(true)
+    })
+
+    it('should return false if any of the elements return false to everyFn', () => {
+      const sut = from(1, 2, 3, 4, 5, 20)
+      const allLessThan10 = sut.every(a => a < 10)
+      expect(allLessThan10).toBe(false)
+    })
+
+    it('should provide element, index and sparray as everyFn params', () => {
+      const sut = from(1, 2, 3)
+      const everyFn = jest.fn().mockReturnValue(true)
+      sut.every(everyFn)
+
+      expect(everyFn).toBeCalledTimes(3)
+      expect(everyFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(everyFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
+      expect(everyFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
+    })
+  })
 })
