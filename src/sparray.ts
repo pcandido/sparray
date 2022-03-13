@@ -380,4 +380,26 @@ export class Sparray<T>{
     return from(new Set(this.data))
   }
 
+  /**
+   * Join the elements of the sparray in a string using the separator and lastSeparator.
+   * The comma is used as the default separator and last separator.
+   * All the elements will be joined by using the separator, except for the last one, that will be joined with lastSeparator.
+   * It allows you to join [1, 2, 3] in something like '1, 2, and 3'
+   *
+   * @param separator - separator for all the elements, except the last. Default = ","
+   * @param lastSeparator - separator for the last element. Default = separator
+   */
+  join(separator = ',', lastSeparator = separator): string {
+    const stringData = this.data.map(a => String(a ?? ''))
+
+    if (stringData.length === 0) return ''
+    if (stringData.length === 1) return stringData[0]
+
+    const last = stringData.at(-1)
+    const rest = stringData.slice(0, -1)
+    const joinned = rest.join(separator) + lastSeparator + last
+
+    return joinned
+  }
+
 }

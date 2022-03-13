@@ -472,4 +472,41 @@ describe('Sparray', () => {
       assertEqual(sut.distinct(), [1, 2, 3, 4])
     })
   })
+
+  describe('join', () => {
+    const sut = from(1, 2, 3, 4, 5)
+
+    it('should concat all elements using "," if no argument is given', () => {
+      const joinned = sut.join()
+      expect(joinned).toBe('1,2,3,4,5')
+    })
+
+    it('should return just the element if it is a single element', () => {
+      const sut = from(1)
+      const joinned = sut.join()
+      expect(joinned).toBe('1')
+    })
+
+    it('should return empty string if sparray is empty', () => {
+      const sut = empty()
+      const joinned = sut.join()
+      expect(joinned).toBe('')
+    })
+
+    it('should concat all elements using given separator', () => {
+      const joinned = sut.join('|')
+      expect(joinned).toBe('1|2|3|4|5')
+    })
+
+    it('should concat all elements using given lastSeparator before the last element', () => {
+      const joinned = sut.join(' | ', ' | and ')
+      expect(joinned).toBe('1 | 2 | 3 | 4 | and 5')
+    })
+
+    it('should convert null and undefined to ""', () => {
+      const sut = [1, undefined, null, 2]
+      const joinned = sut.join()
+      expect(joinned).toBe('1,,,2')
+    })
+  })
 })
