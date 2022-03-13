@@ -373,4 +373,11 @@ export class Sparray<T>{
     return this
   }
 
+  /**
+   * Builds a new sparray of distinct values, removing all the duplicates
+   */
+  distinct(): Sparray<T> {
+    return from(new Set(this.data))
+  }
+
 }

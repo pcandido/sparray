@@ -460,4 +460,16 @@ describe('Sparray', () => {
       expect(forEachFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
     })
   })
+
+  describe('distinct', () => {
+    it('should return the same values if no element is repeated', () => {
+      const sut = from(1, 2, 3)
+      assertEqual(sut.distinct(), [1, 2, 3])
+    })
+
+    it('should remove duplicates', () => {
+      const sut = from(1, 2, 2, 3, 3, 3, 4, 4, 4, 4)
+      assertEqual(sut.distinct(), [1, 2, 3, 4])
+    })
+  })
 })
