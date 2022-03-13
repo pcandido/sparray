@@ -634,4 +634,35 @@ describe('Sparray', () => {
       expect(findFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
     })
   })
+
+  describe('findIndex', () => {
+    it('should return the element that matches the findFn criteria', () => {
+      const sut = from(10, 11, 12)
+      const found = sut.findIndex(a => a % 6 == 0)
+      expect(found).toBe(2)
+    })
+
+    it('should return the first element that matches the findFn criteria, if there are more than one', () => {
+      const sut = from(8, 10, 12, 15)
+      const found = sut.findIndex(a => a % 5 == 0)
+      expect(found).toBe(1)
+    })
+
+    it('should return undefined if no element match', () => {
+      const sut = from(1, 2, 3)
+      const found = sut.findIndex(a => a > 10)
+      expect(found).toBe(-1)
+    })
+
+    it('should provide element, index and sparray as findFn params', () => {
+      const sut = from(1, 2, 3)
+      const findFn = jest.fn().mockReturnValue(false)
+      sut.findIndex(findFn)
+
+      expect(findFn).toBeCalledTimes(3)
+      expect(findFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(findFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
+      expect(findFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
+    })
+  })
 })

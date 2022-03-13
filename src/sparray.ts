@@ -442,4 +442,12 @@ export class Sparray<T>{
     return this.data.find((element, index) => findFn(element, index, this))
   }
 
+  /**
+   * Returns the index of the first element that satisfies the condition of findFn, or -1 if no element satisfies.
+   * @param findFn - condiction to be tested
+   */
+  findIndex(findFn: (element: T, index: number, sparray: Sparray<T>) => boolean): number {
+    return this.data.findIndex((element, index) => findFn(element, index, this))
+  }
+
 }
