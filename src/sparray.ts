@@ -450,4 +450,12 @@ export class Sparray<T>{
     return this.data.findIndex((element, index) => findFn(element, index, this))
   }
 
+  /**
+   * Returns the first index of the given element, or -1 if not found
+   * @param element value to search
+   */
+  indexOf(element: T): number {
+    return this.data.indexOf(element)
+  }
+
 }

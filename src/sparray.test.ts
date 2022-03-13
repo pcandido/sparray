@@ -665,4 +665,23 @@ describe('Sparray', () => {
       expect(findFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
     })
   })
+
+  describe('indexOf', () => {
+    const sut = from(1, 2, 3, 3)
+
+    it('should return the index of the found element', () => {
+      const foundIndex = sut.indexOf(2)
+      expect(foundIndex).toBe(1)
+    })
+
+    it('should return the first index of the found element', () => {
+      const foundIndex = sut.indexOf(3)
+      expect(foundIndex).toBe(2)
+    })
+
+    it('should return -1 if the element was not found', () => {
+      const foundIndex = sut.indexOf(5)
+      expect(foundIndex).toBe(-1)
+    })
+  })
 })
