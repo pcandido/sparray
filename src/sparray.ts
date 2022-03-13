@@ -475,11 +475,19 @@ export class Sparray<T>{
   }
 
   /**
-   * Returns true if the sparray contains all the values, and false otherwise
+   * Returns true if the sparray contains all the given values, and false otherwise
    * @param value values to search
    */
   includesAll(...values: T[]): boolean {
     return values.every(element => this.data.includes(element))
+  }
+
+  /**
+   * Returns true if the sparray contains anyone of the given values, and false otherwise
+   * @param value values to search
+   */
+  includesAny(...values: T[]): boolean {
+    return values.some(element => this.data.includes(element))
   }
 
 }
