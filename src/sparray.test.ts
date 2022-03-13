@@ -299,6 +299,18 @@ describe('Sparray', () => {
     })
   })
 
+  describe('isEmpty', () => {
+    it('should return true if sparray is empty', () => {
+      const sut = empty()
+      expect(sut.isEmpty()).toBe(true)
+    })
+
+    it('should return false if sparray is not empty', () => {
+      const sut = from(1, 2, 3)
+      expect(sut.isEmpty()).toBe(false)
+    })
+  })
+
   describe('map', () => {
     it('should transform elements according to mapFn', () => {
       const sut = from(1, 2, 3).map(a => a * 2)

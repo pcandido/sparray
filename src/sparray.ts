@@ -255,6 +255,13 @@ export class Sparray<T>{
   }
 
   /**
+   * Returns true if the sparray is empty and false otherwise
+   */
+  isEmpty(): boolean {
+    return this.length === 0
+  }
+
+  /**
    * Build a new sparray by transforming the elements according to the mapFn function.
    * For each element in sparray, mapFn must return a new element (derived or not from the original one).
    * @param mapFn - transformation function
