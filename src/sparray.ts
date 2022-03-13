@@ -1,3 +1,4 @@
+import { spawn } from 'child_process'
 import util from 'util'
 
 function fromArray<T>(data: T[]): Sparray<T> {
@@ -400,6 +401,14 @@ export class Sparray<T>{
     const joinned = rest.join(separator) + lastSeparator + last
 
     return joinned
+  }
+
+  /**
+   * Returns true if some element produces the result true in the someFn.
+   * @param someFn - condiction to be tested
+   */
+  some(someFn: (element: T, index: number, sparray: Sparray<T>) => boolean): boolean {
+    return this.data.some((element, index) => someFn(element, index, this))
   }
 
 }

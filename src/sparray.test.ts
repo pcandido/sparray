@@ -509,4 +509,29 @@ describe('Sparray', () => {
       expect(joinned).toBe('1,,,2')
     })
   })
+
+  describe('some', () => {
+    it('should return true if one of the elements returns true to someFn', () => {
+      const sut = from(1, 2, 3, 4, 5)
+      const thereIsLessThan3 = sut.some(a => a < 3)
+      expect(thereIsLessThan3).toBe(true)
+    })
+
+    it('should return false if no one of the elements returns true to someFn', () => {
+      const sut = from(10, 20, 30, 40, 50)
+      const thereIsLessThan3 = sut.some(a => a < 3)
+      expect(thereIsLessThan3).toBe(false)
+    })
+
+    it('should provide element, index and sparray as someFn params', () => {
+      const sut = from(1, 2, 3)
+      const someFn = jest.fn().mockReturnValue(false)
+      sut.some(someFn)
+
+      expect(someFn).toBeCalledTimes(3)
+      expect(someFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(someFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
+      expect(someFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
+    })
+  })
 })
