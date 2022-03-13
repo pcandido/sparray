@@ -509,4 +509,33 @@ export class Sparray<T>{
   sort(sortFn?: (a: T, b: T) => number): Sparray<T> {
     return fromArray(this.toArray().sort(sortFn))
   }
+
+  /**
+   * Builds a new sparray with the elements sorted by the criteria provided by keyFn
+   * @param keyFn get sort key from object
+   * @param reverse determines if the result should be reversed
+   */
+  sortBy<U>(keyFn: (element: T) => U | U[], reverse = false): Sparray<T> {
+    const getKeys = (element: T) => {
+      const keys = keyFn(element)
+      if (Array.isArray(keys))
+        return keys
+      else
+        return [keys]
+    }
+
+    const sortedData = this.toArray().sort((a, b) => {
+      const keysA = getKeys(a)
+      const keysB = getKeys(b)
+
+      for (let i = 0; i < Math.min(keysA.length, keysB.length); i++) {
+        if (keysA[i] < keysB[i]) return reverse ? 1 : -1
+        if (keysA[i] > keysB[i]) return reverse ? -1 : 1
+      }
+
+      return 0
+    })
+
+    return fromArray(sortedData)
+  }
 }

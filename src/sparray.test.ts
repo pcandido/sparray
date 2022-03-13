@@ -786,4 +786,44 @@ describe('Sparray', () => {
       assertEqual(sorted, [5, 4, 3, 2, 1])
     })
   })
+
+  describe('sortBy', () => {
+    const sut = from(
+      { a: 3, b: 1 },
+      { a: 1, b: 3 },
+      { a: 2, b: 2 },
+    )
+
+    it('should sort elements by natural order of key elements', () => {
+      const sortedA = sut.sortBy(element => element.a)
+      const sortedB = sut.sortBy(element => element.b)
+
+      assertEqual(sortedA, [{ a: 1, b: 3 }, { a: 2, b: 2 }, { a: 3, b: 1 }])
+      assertEqual(sortedB, [{ a: 3, b: 1 }, { a: 2, b: 2 }, { a: 1, b: 3 }])
+    })
+
+    it('should sort elements by natural-reverse order of key elements, if reverse = true', () => {
+      const sortedA = sut.sortBy(element => element.a, true)
+      const sortedB = sut.sortBy(element => element.b, true)
+
+      assertEqual(sortedA, [{ a: 3, b: 1 }, { a: 2, b: 2 }, { a: 1, b: 3 }])
+      assertEqual(sortedB, [{ a: 1, b: 3 }, { a: 2, b: 2 }, { a: 3, b: 1 }])
+    })
+
+    it('should sort elements considering all the criteria of sortFn', () => {
+      const sut = from(
+        {a:2,b:2},
+        {a:1,b:2},
+        {a:2,b:1},
+        {a:3,b:2},
+        {a:1,b:1},
+        {a:3,b:1},
+      )
+
+      const sorted = sut.sortBy(element => [element.a, element.b])
+      const toString = sorted.map(element => `${element.a}-${element.b}`).join(';')
+
+      expect(toString).toBe('1-1;1-2;2-1;2-2;3-1;3-2')
+    })
+  })
 })
