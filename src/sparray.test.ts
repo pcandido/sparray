@@ -812,18 +812,47 @@ describe('Sparray', () => {
 
     it('should sort elements considering all the criteria of sortFn', () => {
       const sut = from(
-        {a:2,b:2},
-        {a:1,b:2},
-        {a:2,b:1},
-        {a:3,b:2},
-        {a:1,b:1},
-        {a:3,b:1},
+        { a: 2, b: 2 },
+        { a: 1, b: 2 },
+        { a: 2, b: 1 },
+        { a: 3, b: 2 },
+        { a: 1, b: 1 },
+        { a: 3, b: 1 },
       )
 
       const sorted = sut.sortBy(element => [element.a, element.b])
       const toString = sorted.map(element => `${element.a}-${element.b}`).join(';')
 
       expect(toString).toBe('1-1;1-2;2-1;2-2;3-1;3-2')
+    })
+  })
+
+  describe('slice', () => {
+    const sut = from(1, 2, 3, 4, 5)
+
+    it('should return exacly the same sparray if no param is given', () => {
+      const sliced = sut.slice()
+      assertEqual(sliced, [1, 2, 3, 4, 5])
+    })
+
+    it('should return start from (inclusive) startIndex if it is given', () => {
+      const sliced = sut.slice(2)
+      assertEqual(sliced, [3, 4, 5])
+    })
+
+    it('should return start from (inclusive) startIndex if it is given, but backward when it is negative', () => {
+      const sliced = sut.slice(-2)
+      assertEqual(sliced, [4, 5])
+    })
+
+    it('should return finish on (exclusive) endIndex if it is given', () => {
+      const sliced = sut.slice(0, 3)
+      assertEqual(sliced, [1, 2, 3])
+    })
+
+    it('should return finish on (exclusive) endIndex if it is given, but backward when it is negative', () => {
+      const sliced = sut.slice(0, -1)
+      assertEqual(sliced, [1, 2, 3, 4])
     })
   })
 })

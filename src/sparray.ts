@@ -538,4 +538,15 @@ export class Sparray<T>{
 
     return fromArray(sortedData)
   }
+
+  /**
+   * Builds a new sparray with the elements sliced from the original one.
+   * Negative indices could be used to backward indexing.
+   * @param startIndex slice from this index (inclusive). If it is not provided, it assumes the start of the sparray.
+   * @param endIndex slice until this index (exclusive). If it is not provided, it assumes the end of the sparray.
+   */
+  slice(startIndex?: number, endIndex?: number): Sparray<T> {
+    return fromArray(this.data.slice(startIndex, endIndex))
+  }
+
 }
