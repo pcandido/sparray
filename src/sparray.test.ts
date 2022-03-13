@@ -703,4 +703,18 @@ describe('Sparray', () => {
       expect(foundIndex).toBe(-1)
     })
   })
+
+  describe('includes', () => {
+    const sut = from(1, 2, 3)
+
+    it('should return true if the given element exists on the sparray', () => {
+      const includes = sut.includes(2)
+      expect(includes).toBe(true)
+    })
+
+    it('should return false if the given element does not exist on the sparray', () => {
+      const includes = sut.includes(20)
+      expect(includes).toBe(false)
+    })
+  })
 })

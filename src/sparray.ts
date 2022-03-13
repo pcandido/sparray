@@ -466,4 +466,12 @@ export class Sparray<T>{
     return this.data.lastIndexOf(element)
   }
 
+  /**
+   * Returns true if the sparray contains the value, and false otherwise
+   * @param value value to search
+   */
+  includes(value: T): boolean {
+    return this.data.includes(value)
+  }
+
 }
