@@ -209,8 +209,10 @@ export class Sparray<T>{
     return this.data.entries()
   }
 
-  [Symbol.iterator]() {
-    return this.values()
+  *[Symbol.iterator]() {
+    for (const element of this.data) {
+      yield element
+    }
   }
 
   /**
