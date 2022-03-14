@@ -584,6 +584,16 @@ export class Sparray<T>{
     return this.data.reduce((a, b) => a > b ? a : b)
   }
 
+  minBy<C>(minByFn: (element: T) => C): Sparray<T> {
+    if (this.isEmpty())
+      return empty<T>()
+
+    const calculated = this.map(element => ({ element, value: minByFn(element) }))
+    const minValue = calculated.map(({ value }) => value).min()
+    const minElements = calculated.filter(({ value }) => value == minValue)
+    return minElements.map(({ element }) => element)
+  }
+
   /**
    * Builds a new sparray with the elements sliced from the original one.
    * Negative indices could be used to backward indexing.

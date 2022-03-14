@@ -882,7 +882,19 @@ describe('Sparray', () => {
     })
   })
 
+  describe('minBy', () => {
+    it('should return an empty sparray if sparray is empty', () => {
+      const sut = empty()
+      const min = sut.minBy(a => a)
+      assertEqual(min, [])
+    })
 
+    it('should return all the elements that minByFn returns the min value', () => {
+      const sut = from({ a: 1, i: 0 }, { a: 2, i: 1 }, { a: 1, i: 2 }, { a: 3, i: 3 })
+      const min = sut.minBy(a => a.a)
+      assertEqual(min.map(a => a.i), [0, 2])
+    })
+  })
 
   describe('slice', () => {
     const sut = from(1, 2, 3, 4, 5)
