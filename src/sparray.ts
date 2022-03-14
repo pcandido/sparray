@@ -590,14 +590,19 @@ export class Sparray<T>{
     return this.data.reduce((a, b) => a > b ? a : b)
   }
 
-  minBy<C>(minByFn: (element: T) => C): Sparray<T> {
+  /**
+   * Calculates the element that has the min value, privided by minByFn
+   * @param minByFn function to provide a comparable value
+   * @returns
+   */
+  minBy(minByFn: (element: T) => any): T | undefined {
     if (this.isEmpty())
-      return empty<T>()
+      return undefined
 
-    const calculated = this.map(element => ({ element, value: minByFn(element) }))
-    const minValue = calculated.map(({ value }) => value).min()
-    const minElements = calculated.filter(({ value }) => value == minValue)
-    return minElements.map(({ element }) => element)
+    return this.data
+      .map(element => ({ element, value: minByFn(element) }))
+      .reduce((a, b) => a.value < b.value ? a : b)
+      .element
   }
 
   maxBy<C>(maxByFn: (element: T) => C): Sparray<T> {
