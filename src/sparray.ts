@@ -300,31 +300,35 @@ export class Sparray<T>{
   }
 
   /**
+   * Build a new NumericSparray by transforming the elements according to the mapFn function.
+   * For each element in sparray, mapFn must return a new element (derived or not from the original one).
+   * @param mapFn - transformation function
+   */
+  map(mapFn: (element: T, index: number, sparray: Sparray<T>) => number): NumericSparray
+  /**
    * Build a new sparray by transforming the elements according to the mapFn function.
    * For each element in sparray, mapFn must return a new element (derived or not from the original one).
    * @param mapFn - transformation function
    */
-  map<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R): Sparray<R> {
+  map<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R): Sparray<R>
+  map<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R): Sparray<R> | NumericSparray {
     const mappedData = this.data.map((element, index) => mapFn(element, index, this))
     return fromArray(mappedData)
   }
 
   /**
+   * Build a new NumericSparray by transforming the elements according to the mapFn function and flatten the resultant arrays.
+   * @param mapFn - transformation function
+   */
+  flatMap(mapFn: (element: T, index: number, sparray: Sparray<T>) => number[]): NumericSparray
+  /**
    * Build a new sparray by transforming the elements according to the mapFn function and flatten the resultant arrays.
    * @param mapFn - transformation function
    */
-  flatMap<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R[]): Sparray<R> {
+  flatMap<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R[]): Sparray<R>
+  flatMap<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R[]): Sparray<R> | NumericSparray {
     const mappedData = this.data.flatMap((element, index) => mapFn(element, index, this))
     return fromArray(mappedData)
-  }
-
-  /**
-   * Builds a new sparray flatting the nested sparrays and/or arrays to the main sparray
-   * @deprecated use flat()
-   * @param depth - how deep the flat will be applied
-   */
-  flatten(depth = 1): Sparray<any> {
-    return this.flat(depth)
   }
 
   /**
