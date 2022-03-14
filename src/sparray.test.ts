@@ -912,4 +912,18 @@ describe('NumericSparray', () => {
     })
   })
 
+  describe('avg', () => {
+    it('should return NaN if sparray is empty', () => {
+      const sut = new NumericSparray([])
+      const avg = sut.avg()
+      expect(avg).toBeNaN()
+    })
+
+    it('should calculate average of the sparray', () => {
+      const sut = from(1, 2, 3, 4, 5, 6)
+      const avg = sut.avg()
+      expect(avg).toBeCloseTo(3.5)
+    })
+  })
+
 })

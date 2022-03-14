@@ -602,4 +602,14 @@ export class NumericSparray extends Sparray<number>{
     return this.data.reduce((a, b) => a + b, 0)
   }
 
+  /**
+   * Calculates the average of all the elements of the sparray.
+   */
+  avg(): number {
+    if (this.isEmpty())
+      return NaN
+
+    return this.sum() / this.length
+  }
+
 }
