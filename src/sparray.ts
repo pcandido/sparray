@@ -593,7 +593,6 @@ export class Sparray<T>{
   /**
    * Calculates the element that has the min value, privided by minByFn
    * @param minByFn function to provide a comparable value
-   * @returns
    */
   minBy(minByFn: (element: T) => any): T | undefined {
     if (this.isEmpty())
@@ -608,7 +607,6 @@ export class Sparray<T>{
   /**
    * Calculates the element that has the max value, privided by maxByFn
    * @param maxByFn function to provide a comparable value
-   * @returns
    */
   maxBy<C>(maxByFn: (element: T) => C): T | undefined {
     if (this.isEmpty())
