@@ -868,6 +868,22 @@ describe('Sparray', () => {
     })
   })
 
+  describe('max', () => {
+    it('should return undefined if sparray is empty', () => {
+      const sut = empty()
+      const max = sut.max()
+      expect(max).toBeUndefined()
+    })
+
+    it('should return the the max value according natural comparison', () => {
+      const sut = from('p', 'a', 'h', 'z')
+      const max = sut.max()
+      expect(max).toBe('z')
+    })
+  })
+
+
+
   describe('slice', () => {
     const sut = from(1, 2, 3, 4, 5)
 
