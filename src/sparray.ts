@@ -605,14 +605,19 @@ export class Sparray<T>{
       .element
   }
 
-  maxBy<C>(maxByFn: (element: T) => C): Sparray<T> {
+  /**
+   * Calculates the element that has the max value, privided by maxByFn
+   * @param maxByFn function to provide a comparable value
+   * @returns
+   */
+  maxBy<C>(maxByFn: (element: T) => C): T | undefined {
     if (this.isEmpty())
-      return empty<T>()
+      return undefined
 
-    const calculated = this.map(element => ({ element, value: maxByFn(element) }))
-    const maxValue = calculated.map(({ value }) => value).max()
-    const maxElements = calculated.filter(({ value }) => value == maxValue)
-    return maxElements.map(({ element }) => element)
+    return this.data
+      .map(element => ({ element, value: maxByFn(element) }))
+      .reduce((a, b) => a.value > b.value ? a : b)
+      .element
   }
 
   /**
