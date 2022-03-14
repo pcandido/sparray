@@ -102,25 +102,7 @@ export function range(start: number, end?: number, step?: number): NumericSparra
     for (let i = start; i > end; i += step) data.push(i)
   }
 
-  return fromArray<number>(data)
-}
-
-/**
- * Build a NumericSparray by repeating value for n times
- * @param value the value will fill the sparray
- * @param times quantity of values to fill sparray
- * @deprecated Use #repeat(value, times)
- */
-export function fillOf(times: number, value: number): NumericSparray
-/**
- * Build a sparray by repeating value for n times
- * @param value the value will fill the sparray
- * @param times quantity of values to fill sparray
- * @deprecated Use #repeat(value, times)
- */
-export function fillOf<T>(times: number, value: T): Sparray<T>
-export function fillOf<T>(times: number, value: any): Sparray<T> | NumericSparray {
-  return repeat(value, times)
+  return fromArray(data)
 }
 
 /**
@@ -612,5 +594,12 @@ export class Sparray<T>{
 }
 
 export class NumericSparray extends Sparray<number>{
+
+  /**
+   * Sums all the elements of the sparray.
+   */
+  sum(): number {
+    return this.data.reduce((a, b) => a + b, 0)
+  }
 
 }

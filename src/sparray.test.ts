@@ -893,8 +893,23 @@ describe('Sparray', () => {
       const sut = from(1, 2, 3)
       expect(sut.toString()).toBe('[ 1, 2, 3 ]')
     })
-
-
-
   })
+})
+
+describe('NumericSparray', () => {
+
+  describe('sum', () => {
+    it('should return 0 if sparray is empty', () => {
+      const sut = new NumericSparray([])
+      const sum = sut.sum()
+      expect(sum).toBe(0)
+    })
+
+    it('should sum elements of the sparray', () => {
+      const sut = from(1, 2, 3)
+      const sum = sut.sum()
+      expect(sum).toBe(6)
+    })
+  })
+
 })
