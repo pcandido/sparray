@@ -896,6 +896,20 @@ describe('Sparray', () => {
     })
   })
 
+  describe('maxBy', () => {
+    it('should return an empty sparray if sparray is empty', () => {
+      const sut = empty()
+      const max = sut.maxBy(a => a)
+      assertEqual(max, [])
+    })
+
+    it('should return all the elements that maxByFn returns the max value', () => {
+      const sut = from({ a: 3, i: 0 }, { a: 2, i: 1 }, { a: 1, i: 2 }, { a: 3, i: 3 })
+      const max = sut.maxBy(a => a.a)
+      assertEqual(max.map(a => a.i), [0, 3])
+    })
+  })
+
   describe('slice', () => {
     const sut = from(1, 2, 3, 4, 5)
 

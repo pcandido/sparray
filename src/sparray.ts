@@ -594,6 +594,16 @@ export class Sparray<T>{
     return minElements.map(({ element }) => element)
   }
 
+  maxBy<C>(maxByFn: (element: T) => C): Sparray<T> {
+    if (this.isEmpty())
+      return empty<T>()
+
+    const calculated = this.map(element => ({ element, value: maxByFn(element) }))
+    const maxValue = calculated.map(({ value }) => value).max()
+    const maxElements = calculated.filter(({ value }) => value == maxValue)
+    return maxElements.map(({ element }) => element)
+  }
+
   /**
    * Builds a new sparray with the elements sliced from the original one.
    * Negative indices could be used to backward indexing.
