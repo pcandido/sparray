@@ -570,6 +570,13 @@ export class Sparray<T>{
     return fromArray(sortedData)
   }
 
+  min(): T | undefined {
+    if (this.isEmpty())
+      return undefined
+
+    return this.data.reduce((a, b) => a < b ? a : b)
+  }
+
   /**
    * Builds a new sparray with the elements sliced from the original one.
    * Negative indices could be used to backward indexing.
