@@ -570,6 +570,9 @@ export class Sparray<T>{
     return fromArray(sortedData)
   }
 
+  /**
+   * Returns the min value of the sparray
+   */
   min(): T | undefined {
     if (this.isEmpty())
       return undefined
@@ -577,6 +580,9 @@ export class Sparray<T>{
     return this.data.reduce((a, b) => a < b ? a : b)
   }
 
+  /**
+   * Returns the max value of the sparray
+   */
   max(): T | undefined {
     if (this.isEmpty())
       return undefined
