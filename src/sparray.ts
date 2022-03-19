@@ -768,6 +768,41 @@ export class Sparray<T>{
   }
 
   /**
+   * Sample a single element from data
+   */
+  sample(): T | undefined
+  /**
+   * Sample n elements from data
+   *
+   * @param size - the number of sampled elements
+   * @param withReplacement - determines if an element could be selected twice or more
+   */
+  sample(size: number, withReplacement: boolean): Sparray<T>
+  sample(size?: number, withReplacement?: boolean): T | Sparray<T> | undefined {
+    const random = (max = this.length) => Math.trunc(Math.random() * max)
+
+    if (typeof size === 'undefined') {
+      return this.data[random()]
+    } else {
+      if (size > this.length && !withReplacement) {
+        throw new Error('cannot sample more elements than sparray size if withReplacement = false')
+      }
+
+      const sampled: T[] = []
+      const available = this.toArray()
+
+      for (let i = 0; i < size; i++) {
+        const selected = random(available.length)
+        sampled.push(available[selected])
+        if (!withReplacement) {
+          available.splice(selected, 1)
+        }
+      }
+      return fromArray(sampled)
+    }
+  }
+
+  /**
    * Returns the string representation of the sparray and its elements
    */
   toString(): string {

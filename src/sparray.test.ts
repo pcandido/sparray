@@ -1168,6 +1168,53 @@ describe('Sparray', () => {
     })
   })
 
+  describe('sample', () => {
+    let randomSpy: jest.SpyInstance
+    const sut = from(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+    beforeAll(() => {
+      randomSpy = jest.spyOn(global.Math, 'random').mockReturnValue(0.6)
+    })
+
+    afterAll(() => {
+      randomSpy.mockRestore()
+    })
+
+    it('should return a random element of sparray', () => {
+      const sampled = sut.sample()
+      expect(sampled).toBe(7)
+    })
+
+    it('should return undefined if sparray is empty', () => {
+      const sampled = empty().sample()
+      expect(sampled).toBeUndefined()
+    })
+
+    it('should return a sparray of sampled elements if size is provided', () => {
+      const sampled = sut.sample(2, true)
+      assertEqual(sampled, [7, 7])
+    })
+
+    it('should not repeat elements if withReplacement = false', () => {
+      const sampled = sut.sample(2, false)
+      assertEqual(sampled, [7, 6])
+    })
+
+    it('should return all the elements if size = sparray.length and withReplacement = false', () => {
+      const sampled = sut.sample(10, false)
+      assertEqual(sampled, [7, 6, 5, 8, 4, 9, 3, 2, 10, 1])
+    })
+
+    it('should throw an exception if size > sparray.length and withReplacement = false', () => {
+      expect(() => sut.sample(11, false)).toThrow('cannot sample more elements than sparray size if withReplacement = false')
+    })
+
+    it('should generate samples normally if size > sparray.size and withReplacement = true', () => {
+      const sampled = sut.sample(11, true)
+      assertEqual(sampled, [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7])
+    })
+  })
+
   describe('toString', () => {
     it('should return "[ ]" to empty sparrays', () => {
       const sut = empty()
