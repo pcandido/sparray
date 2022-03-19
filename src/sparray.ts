@@ -170,7 +170,7 @@ export class Sparray<T>{
     this._data = [...data]
   }
 
-  [util.inspect.custom](depth: any, opts: any): any {
+  [util.inspect.custom](): any {
     return this.data
   }
 
