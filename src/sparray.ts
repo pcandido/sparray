@@ -282,6 +282,13 @@ export class Sparray<T>{
   }
 
   /**
+   * Returns false if the sparray is empty and true otherwise
+   */
+  isNotEmpty(): boolean {
+    return this.length > 0
+  }
+
+  /**
    * Build a new NumericSparray by transforming the elements according to the mapFn function.
    * For each element in sparray, mapFn must return a new element (derived or not from the original one).
    * @param mapFn - transformation function
