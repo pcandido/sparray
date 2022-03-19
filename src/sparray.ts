@@ -843,6 +843,33 @@ export class Sparray<T>{
   }
 
   /**
+   * Builds a cartesian product from this and a second sparray/array.
+   * The result will be an Sparray, and each element will be an array with values from both this and that.
+   *
+   * @param that - sparray or array to cross
+   */
+  cross<S, R = [T, S]>(that: SparrayOrArray<S>): Sparray<R>
+  /**
+   * Builds a cartesian product from this and a second sparray/array.
+   * The result will be an Sparray, and each element will be defined by combineFn.
+   *
+   * @param that - sparray or array to cross
+   * @param combineFn - receive the objects from both sides to combine
+   */
+  cross<S, R>(that: SparrayOrArray<S>, combineFn: (valueThis: T, valueThat: S) => R): Sparray<R>
+  cross<S>(that: SparrayOrArray<S>, combineFn?: (valueThis: T, valueThat: S) => any): Sparray<any> {
+    const combine = combineFn ?? ((a, b) => [a, b])
+
+    const data = []
+    for (const v1 of this) {
+      for (const v2 of that) {
+        data.push(combine(v1, v2))
+      }
+    }
+    return fromArray(data)
+  }
+
+  /**
    * Sample a single element from data
    */
   sample(): T | undefined

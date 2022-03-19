@@ -1274,6 +1274,61 @@ describe('Sparray', () => {
     })
   })
 
+  describe('cross', () => {
+    const sut = from(1, 2, 3)
+
+    it('should return all combinations, as array, between this and that sparray', () => {
+      const other = from(4, 5, 6)
+      const crossed = sut.cross(other)
+      assertEqual(crossed, [
+        [1, 4],
+        [1, 5],
+        [1, 6],
+        [2, 4],
+        [2, 5],
+        [2, 6],
+        [3, 4],
+        [3, 5],
+        [3, 6],
+      ])
+    })
+
+    it('should return all combinations, as array, between this and that array', () => {
+      const other = [4, 5, 6]
+      const crossed = sut.cross(other)
+      assertEqual(crossed, [
+        [1, 4],
+        [1, 5],
+        [1, 6],
+        [2, 4],
+        [2, 5],
+        [2, 6],
+        [3, 4],
+        [3, 5],
+        [3, 6],
+      ])
+    })
+
+    it('should return the result of combineFn if it is provided', () => {
+      const other = [1, 2]
+      const crossed = sut.cross(other, (a, b) => `${a}${b}`)
+      assertEqual(crossed, ['11', '12', '21', '22', '31', '32'])
+    })
+
+    it('should return empty sparray if this is empty', () => {
+      const sut = empty()
+      const other = from(1, 2)
+      const crossed = sut.cross(other)
+      expect(crossed.isEmpty()).toBe(true)
+    })
+
+    it('should return empty sparray if that is empty', () => {
+      const other = empty()
+      const crossed = sut.cross(other)
+      expect(crossed.isEmpty()).toBe(true)
+    })
+  })
+
   describe('sample', () => {
     let randomSpy: jest.SpyInstance
     const sut = from(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
