@@ -193,18 +193,6 @@ export class Sparray<T>{
    * Negative indices will get elements backward.
    * Out of bound indices will return undefined.
    *
-   * @deprecated use .at()
-   * @param index - the position of the element that should be gotten
-   */
-  get(index: number): T | undefined {
-    return this.at(index)
-  }
-
-  /**
-   * Gets an element from sparray by index.
-   * Negative indices will get elements backward.
-   * Out of bound indices will return undefined.
-   *
    * @param index - the position of the element that should be gotten
    */
   at(index: number): T | undefined {

@@ -207,19 +207,19 @@ describe('Sparray', () => {
     })
   })
 
-  describe('get', () => {
+  describe('at', () => {
     const sut = from(1, 2, 3, 4, 5)
 
     it('should return the n-th element when use positive index', () => {
-      expect(sut.get(3)).toBe(4)
+      expect(sut.at(3)).toBe(4)
     })
 
     it('should return elements backward for negative indices', () => {
-      expect(sut.get(-2)).toBe(4)
+      expect(sut.at(-2)).toBe(4)
     })
 
     it('should return undefined for out of bound indices', () => {
-      expect(sut.get(50)).toBeUndefined()
+      expect(sut.at(50)).toBeUndefined()
     })
   })
 
