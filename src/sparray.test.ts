@@ -1168,6 +1168,112 @@ describe('Sparray', () => {
     })
   })
 
+  describe('zip', () => {
+    const sut = from(1, 2, 3, 4, 5)
+
+    it('should zip elements of other given sparray', () => {
+      const other = from('a', 'b', 'c', 'd', 'e')
+      const zipped = sut.zip(other)
+      assertEqual(zipped, [[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']])
+    })
+
+    it('should fill with undefined if toZip is smaller than sparray', () => {
+      const other = from('a', 'b', 'c')
+      const zipped = sut.zip(other)
+      assertEqual(zipped, [[1, 'a'], [2, 'b'], [3, 'c'], [4, undefined], [5, undefined]])
+    })
+
+    it('should discard elements from toZip if it is larger than sparray', () => {
+      const other = from('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+      const zipped = sut.zip(other)
+      assertEqual(zipped, [[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']])
+    })
+
+    it('should zip arrays', () => {
+      const other = ['a', 'b', 'c', 'd', 'e']
+      const zipped = sut.zip(other)
+      assertEqual(zipped, [[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']])
+    })
+
+    it('should zip two sparrays/arrays', () => {
+      const s1 = [2, 3, 4, 5, 6]
+      const s2 = from(3, 4, 5, 6, 7)
+      const zipped = sut.zip(s1, s2)
+      assertEqual(zipped, [
+        [1, 2, 3],
+        [2, 3, 4],
+        [3, 4, 5],
+        [4, 5, 6],
+        [5, 6, 7],
+      ])
+    })
+
+    it('should zip 3 sparrays/arrays', () => {
+      const s1 = [2, 3, 4, 5, 6]
+      const s2 = from(3, 4, 5, 6, 7)
+      const s3 = from(4, 5, 6, 7, 8)
+      const zipped = sut.zip(s1, s2, s3)
+      assertEqual(zipped, [
+        [1, 2, 3, 4],
+        [2, 3, 4, 5],
+        [3, 4, 5, 6],
+        [4, 5, 6, 7],
+        [5, 6, 7, 8],
+      ])
+    })
+
+    it('should zip 4 sparrays/arrays', () => {
+      const s1 = [2, 3, 4, 5, 6]
+      const s2 = from(3, 4, 5, 6, 7)
+      const s3 = from(4, 5, 6, 7, 8)
+      const s4 = [5, 6, 7, 8, 9]
+
+      const zipped = sut.zip(s1, s2, s3, s4)
+      assertEqual(zipped, [
+        [1, 2, 3, 4, 5],
+        [2, 3, 4, 5, 6],
+        [3, 4, 5, 6, 7],
+        [4, 5, 6, 7, 8],
+        [5, 6, 7, 8, 9],
+      ])
+    })
+
+    it('should zip 5 sparrays/arrays', () => {
+      const s1 = [2, 3, 4, 5, 6]
+      const s2 = from(3, 4, 5, 6, 7)
+      const s3 = from(4, 5, 6, 7, 8)
+      const s4 = [5, 6, 7, 8, 9]
+      const s5 = [6, 7, 8, 9, 10]
+
+      const zipped = sut.zip(s1, s2, s3, s4, s5)
+      assertEqual(zipped, [
+        [1, 2, 3, 4, 5, 6],
+        [2, 3, 4, 5, 6, 7],
+        [3, 4, 5, 6, 7, 8],
+        [4, 5, 6, 7, 8, 9],
+        [5, 6, 7, 8, 9, 10],
+      ])
+    })
+
+    it('should zip more than 5 sparrays/arrays', () => {
+      const s1 = [2, 3, 4, 5, 6]
+      const s2 = from(3, 4, 5, 6, 7)
+      const s3 = from(4, 5, 6, 7, 8)
+      const s4 = [5, 6, 7, 8, 9]
+      const s5 = [6, 7, 8, 9, 10]
+      const s6 = [7, 8, 9, 10, 11]
+
+      const zipped = sut.zip(s1, s2, s3, s4, s5, s6)
+      assertEqual(zipped, [
+        [1, 2, 3, 4, 5, 6, 7],
+        [2, 3, 4, 5, 6, 7, 8],
+        [3, 4, 5, 6, 7, 8, 9],
+        [4, 5, 6, 7, 8, 9, 10],
+        [5, 6, 7, 8, 9, 10, 11],
+      ])
+    })
+  })
+
   describe('sample', () => {
     let randomSpy: jest.SpyInstance
     const sut = from(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)

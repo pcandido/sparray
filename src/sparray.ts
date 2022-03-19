@@ -1,5 +1,8 @@
 import util from 'util'
 
+type SparrayOrArray<T> = Sparray<T> | T[]
+type Optional<T> = T | undefined
+
 function fromArray(data: number[]): NumericSparray
 function fromArray<T>(data: T[]): Sparray<T>
 function fromArray<T>(data: T[]): Sparray<T> | NumericSparray {
@@ -765,6 +768,78 @@ export class Sparray<T>{
     }
 
     return fromArray(partitions)
+  }
+
+  /**
+   * Create a new sparray zipping the source and any other sparray/array provided.
+   * The size of the new sparray will be the size this sparray,
+   * and each element of the new sparray will be an array containing the element
+   * of i-th index from source and each provided sparray/array.
+   *
+   * @param toZip sparray or array to zip
+   */
+  zip<S1>(toZip: SparrayOrArray<S1>): Sparray<[T, Optional<S1>]>
+  /**
+   * Create a new sparray zipping the source and any other sparray/array provided.
+   * The size of the new sparray will be the size this sparray,
+   * and each element of the new sparray will be an array containing the element
+   * of i-th index from source and each provided sparray/array.
+   *
+   * @param toZip1 sparray or array to zip
+   * @param toZip2 sparray or array to zip
+   */
+  zip<S1, S2>(toZip1: SparrayOrArray<S1>, toZip2: SparrayOrArray<S2>): Sparray<[T, Optional<S1>, Optional<S2>]>
+  /**
+   * Create a new sparray zipping the source and any other sparray/array provided.
+   * The size of the new sparray will be the size this sparray,
+   * and each element of the new sparray will be an array containing the element
+   * of i-th index from source and each provided sparray/array.
+   *
+   * @param toZip1 sparray or array to zip
+   * @param toZip2 sparray or array to zip
+   * @param toZip3 sparray or array to zip
+   */
+  zip<S1, S2, S3>(toZip1: SparrayOrArray<S1>, toZip2: SparrayOrArray<S2>, toZip3: SparrayOrArray<S3>): Sparray<[T, Optional<S1>, Optional<S2>, Optional<S3>]>
+  /**
+   * Create a new sparray zipping the source and any other sparray/array provided.
+   * The size of the new sparray will be the size this sparray,
+   * and each element of the new sparray will be an array containing the element
+   * of i-th index from source and each provided sparray/array.
+   *
+   * @param toZip1 sparray or array to zip
+   * @param toZip2 sparray or array to zip
+   * @param toZip3 sparray or array to zip
+   * @param toZip4 sparray or array to zip
+   */
+  zip<S1, S2, S3, S4>(toZip1: SparrayOrArray<S1>, toZip2: SparrayOrArray<S2>, toZip3: SparrayOrArray<S3>, toZip4: SparrayOrArray<S4>): Sparray<[T, Optional<S1>, Optional<S2>, Optional<S3>, Optional<S4>]>
+  /**
+   * Create a new sparray zipping the source and any other sparray/array provided.
+   * The size of the new sparray will be the size this sparray,
+   * and each element of the new sparray will be an array containing the element
+   * of i-th index from source and each provided sparray/array.
+   *
+   * @param toZip1 sparray or array to zip
+   * @param toZip2 sparray or array to zip
+   * @param toZip3 sparray or array to zip
+   * @param toZip4 sparray or array to zip
+   * @param toZip5 sparray or array to zip
+   */
+  zip<S1, S2, S3, S4, S5>(toZip1: SparrayOrArray<S1>, toZip2: SparrayOrArray<S2>, toZip3: SparrayOrArray<S3>, toZip4: SparrayOrArray<S4>, toZip5: SparrayOrArray<S5>): Sparray<[T, Optional<S1>, Optional<S2>, Optional<S3>, Optional<S4>, Optional<S5>]>
+  /**
+   * Create a new sparray zipping the source and any other sparray/array provided.
+   * The size of the new sparray will be the size this sparray,
+   * and each element of the new sparray will be an array containing the element
+   * of i-th index from source and each provided sparray/array.
+   *
+   * @param toZip sparrays or arrays to zip
+   */
+  zip(...toZip: SparrayOrArray<any>[]): Sparray<[T, ...any]>
+  zip(...toZip: (Sparray<any> | any[])[]): Sparray<any[]> {
+    const zipped = this.data.map((element, index) => {
+      return [element, ...toZip.map(array => array.at(index))]
+    })
+
+    return fromArray(zipped)
   }
 
   /**
