@@ -951,6 +951,30 @@ describe('Sparray', () => {
     })
   })
 
+  describe('first', () => {
+    const sut = from(1, 2, 3, 4, 5)
+
+    it('should return the first element if no size is provided', () => {
+      const first = sut.first()
+      expect(first).toBe(1)
+    })
+
+    it('should return undefined if sparray is empty', () => {
+      const first = empty().first()
+      expect(first).toBeUndefined()
+    })
+
+    it('should return the first n elements if size is provided', () => {
+      const first = sut.first(3)
+      assertEqual(first, [1, 2, 3])
+    })
+
+    it('should return an empty array if sparray is empty and size is provided', () => {
+      const first = empty().first(3)
+      assertEqual(first, [])
+    })
+  })
+
   describe('indexBy', () => {
     it('should return an object where keys are the index and values are the elements', () => {
       const sut = from({ a: 1 }, { a: 2 })

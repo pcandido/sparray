@@ -636,6 +636,22 @@ export class Sparray<T>{
   }
 
   /**
+   * Return the first element of the sparray.
+   */
+  first(): T | undefined
+  /**
+   * Return the first n elements of the sparray.
+   * @param size the number of elements
+   */
+  first(size: number): Sparray<T>
+  first(size?: number): T | Sparray<T> | undefined {
+    if (typeof size === 'undefined')
+      return this.data[0]
+    else
+      return fromArray(this.data.slice(0, size))
+  }
+
+  /**
    * Indexes the elements by a key. The result will be an object where the keys are provided by keyFn and the values are the own elements.
    * If there are duplicate keys, the last element that generated that key will be preserved.
    * The resultant object has the function toSparray() to get back a sparray
