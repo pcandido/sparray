@@ -629,6 +629,44 @@ export class Sparray<T>{
   }
 
   /**
+   * Indexes the elements by a key. The result will be an object where the keys are provided by keyFn and the values are the own elements.
+   * If there are duplicate keys, the last element that generated that key will be preserved.
+   * The resultant object has the function toSparray() to get back a sparray
+   * @see groupBy
+   * @param keyFn - function to provide a key by element
+   */
+  indexBy<R = T>(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number): { [key: string]: R } & { toSparray: () => Sparray<{ key: string, value: R }> }
+  /**
+   * Indexes the elements by a key. The result will be an object where the keys are provided by keyFn and the values are provided by valueFn.
+   * If there are duplicate keys, the last element that generated that key will be preserved.
+   * The resultant object has the function toSparray() to get back a sparray
+   * @see groupBy
+   * @param keyFn - function to provide a key by element
+   * @param valueFn - function to provide a value by element
+   */
+  indexBy<R>(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number, valueFn: (element: T, key: string, index: number, sparray: Sparray<T>) => R): { [key: string]: R } & { toSparray: () => Sparray<{ key: string, value: R }> }
+  indexBy<R>(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number, valueFn?: (element: T, key: string, index: number, sparray: Sparray<T>) => R): { [key: string]: R } {
+    const getValue = valueFn ?? (element => element)
+    const result = this.data.reduce((acc, curr, index) => {
+      const key = String(keyFn(curr, index, this))
+      const value = getValue(curr, key, index, this) as R
+      acc[key] = value
+      return acc
+    }, {} as { [key: string]: R })
+
+    Object.defineProperty(result, 'toSparray', {
+      value: (): Sparray<{ key: string, value: R }> => {
+        return fromArray(Object.keys(result))
+          .map(key => ({ key, value: result[key] }))
+      },
+      configurable: false,
+      enumerable: false,
+    })
+
+    return result
+  }
+
+  /**
    * Returns the string representation of the sparray and its elements
    */
   toString(): string {

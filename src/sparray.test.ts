@@ -939,6 +939,64 @@ describe('Sparray', () => {
     })
   })
 
+  describe('indexBy', () => {
+    it('should return an object where keys are the index and values are the elements', () => {
+      const sut = from({ a: 1 }, { a: 2 })
+      const indexed = sut.indexBy(element => element.a)
+      expect(indexed).toEqual({
+        '1': { a: 1 },
+        '2': { a: 2 },
+      })
+    })
+
+    it('should return values according to valueFn', () => {
+      const sut = from({ a: 1, b: 'a' }, { a: 2, b: 'b' })
+      const indexed = sut.indexBy(element => element.a, element => element.b)
+      expect(indexed).toEqual({
+        '1': 'a',
+        '2': 'b',
+      })
+    })
+
+    it('should produce an object that can be turned back to sparray', () => {
+      const sut = from({ a: 1 }, { a: 2 })
+      const indexed = sut.indexBy(element => element.a)
+      const indexedAsSparray = indexed.toSparray()
+      assertEqual(indexedAsSparray, [{ key: '1', value: { a: 1 } }, { key: '2', value: { a: 2 } }])
+    })
+
+    it('should return just last element in case of duplicity of keys', () => {
+      const sut = from({ a: 1, b: 1 }, { a: 1, b: 2 }, { a: 2, b: 3 }, { a: 2, b: 4 })
+      const indexed = sut.indexBy(element => element.a, element => element.b)
+      expect(indexed).toEqual({
+        '1': 2,
+        '2': 4,
+      })
+    })
+
+    it('should provide the current element, index and sparray as params to keyFn', () => {
+      const keyFn = jest.fn().mockReturnValue('a')
+      const sut = from(1, 2, 3)
+      sut.indexBy(keyFn)
+
+      expect(keyFn).toBeCalledTimes(3)
+      expect(keyFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(keyFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
+      expect(keyFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
+    })
+
+    it('should provide the current element, calculated key, index and sparray as params to keyFn', () => {
+      const valueFn = jest.fn().mockReturnValue('a')
+      const sut = from(1, 2, 3)
+      sut.indexBy(a => a * 2, valueFn)
+
+      expect(valueFn).toBeCalledTimes(3)
+      expect(valueFn).toHaveBeenNthCalledWith(1, 1, '2', 0, sut)
+      expect(valueFn).toHaveBeenNthCalledWith(2, 2, '4', 1, sut)
+      expect(valueFn).toHaveBeenNthCalledWith(3, 3, '6', 2, sut)
+    })
+  })
+
   describe('toString', () => {
     it('should return "[ ]" to empty sparrays', () => {
       const sut = empty()
