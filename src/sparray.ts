@@ -237,6 +237,13 @@ export class Sparray<T>{
   }
 
   /**
+   * Maps each element to an object containing the index and the value
+   */
+  enumerate(): Sparray<{ index: number, value: T }> {
+    return fromArray(this.data.map((value, index) => ({ index, value })))
+  }
+
+  /**
   * The number of elements of the sparray.
   * @see size()
   * @see count()

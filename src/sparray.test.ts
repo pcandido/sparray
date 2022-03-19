@@ -259,6 +259,14 @@ describe('Sparray', () => {
     })
   })
 
+  describe('enumarate', () => {
+    it('should return an sparray where each element is the index and value of original sparray', () => {
+      const sut = from(1, 2, 3)
+      const enumerated = sut.enumerate()
+      assertEqual(enumerated, [{ index: 0, value: 1 }, { index: 1, value: 2 }, { index: 2, value: 3 }])
+    })
+  })
+
   describe('length', () => {
     it('should return the length of sparray', () => {
       const sut = from(1, 2, 3)
