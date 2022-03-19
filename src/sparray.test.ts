@@ -975,6 +975,30 @@ describe('Sparray', () => {
     })
   })
 
+  describe('last', () => {
+    const sut = from(1, 2, 3, 4, 5)
+
+    it('should return the last element if no size is provided', () => {
+      const last = sut.last()
+      expect(last).toBe(5)
+    })
+
+    it('should return undefined if sparray is empty', () => {
+      const last = empty().last()
+      expect(last).toBeUndefined()
+    })
+
+    it('should return the last n elements if size is provided', () => {
+      const last = sut.last(3)
+      assertEqual(last, [3, 4, 5])
+    })
+
+    it('should return an empty array if sparray is empty and size is provided', () => {
+      const last = empty().last(3)
+      assertEqual(last, [])
+    })
+  })
+
   describe('indexBy', () => {
     it('should return an object where keys are the index and values are the elements', () => {
       const sut = from({ a: 1 }, { a: 2 })

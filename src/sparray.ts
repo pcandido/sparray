@@ -652,6 +652,22 @@ export class Sparray<T>{
   }
 
   /**
+   * Return the last element of the sparray.
+   */
+  last(): T | undefined
+  /**
+   * Return the last n elements of the sparray.
+   * @param size the number of elements
+   */
+  last(size: number): Sparray<T>
+  last(size?: number): T | Sparray<T> | undefined {
+    if (typeof size === 'undefined')
+      return this.data.at(-1)
+    else
+      return fromArray(this.data.slice(-size))
+  }
+
+  /**
    * Indexes the elements by a key. The result will be an object where the keys are provided by keyFn and the values are the own elements.
    * If there are duplicate keys, the last element that generated that key will be preserved.
    * The resultant object has the function toSparray() to get back a sparray
