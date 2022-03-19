@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
-      "target": "es2016",
-      "module": "commonjs",
-      "outDir": "./dist",
-      "rootDir": "./src",
-      "declaration": true,
-      "strict": true,
-      "esModuleInterop": true
-  }
+    "target": "es2016",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts"
+  ]
 }
