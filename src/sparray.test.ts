@@ -1059,6 +1059,59 @@ describe('Sparray', () => {
     })
   })
 
+  describe('sliding', () => {
+    const sut = from(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+    it('should generate partitions of given size', () => {
+      const partition = sut.sliding(2)
+      expect(partition).toEqual({
+        _data: [
+          { _data: [1, 2] },
+          { _data: [3, 4] },
+          { _data: [5, 6] },
+          { _data: [7, 8] },
+          { _data: [9, 10] },
+        ],
+      })
+    })
+
+    it('should generate the last partition incomplete in case of sparray.length % size > 0', () => {
+      const partition = sut.sliding(6)
+      expect(partition).toEqual({
+        _data: [
+          { _data: [1, 2, 3, 4, 5, 6] },
+          { _data: [7, 8, 9, 10] },
+        ],
+      })
+    })
+
+    it('should repeat elements in case step < size', () => {
+      const partition = sut.sliding(5, 3)
+      expect(partition).toEqual({
+        _data: [
+          { _data: [1, 2, 3, 4, 5] },
+          { _data: [4, 5, 6, 7, 8] },
+          { _data: [7, 8, 9, 10] },
+          { _data: [10] },
+        ],
+      })
+    })
+
+    it('should skip elements in case step > size', () => {
+      const partition = sut.sliding(3, 5)
+      expect(partition).toEqual({
+        _data: [
+          { _data: [1, 2, 3] },
+          { _data: [6, 7, 8] },
+        ],
+      })
+    })
+
+    it('should throw exception if step < 1', () => {
+      expect(() => sut.sliding(5, 0)).toThrow('step must be positive integer')
+    })
+  })
+
   describe('toString', () => {
     it('should return "[ ]" to empty sparrays', () => {
       const sut = empty()

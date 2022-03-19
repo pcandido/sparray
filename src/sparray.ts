@@ -712,6 +712,23 @@ export class Sparray<T>{
   }
 
   /**
+   * Partitions the sparray in batches of the provided size. The step determines the size of the step before generating each partition.
+   * @param size - the size of the partition
+   * @param step - the size of the step. By default is the same as the size of the partition.
+   */
+  sliding(size: number, step = size): any {
+    if (step < 1)
+      throw new Error('step must be positive integer')
+
+    const partitions = []
+    for (let i = 0; i < this.length; i += step) {
+      partitions.push(fromArray(this.data.slice(i, i + size)))
+    }
+
+    return fromArray(partitions)
+  }
+
+  /**
    * Returns the string representation of the sparray and its elements
    */
   toString(): string {
