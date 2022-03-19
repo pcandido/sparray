@@ -667,6 +667,44 @@ export class Sparray<T>{
   }
 
   /**
+   * Groups the elements by a key. The result will be an object where the keys are provided by keyFn and the values are grouped as sparrays.
+   * @see indexBy
+   * @param keyFn  - function to provide a key by element
+   */
+  groupBy<R = Sparray<T>>(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number): { [key: string]: R } & { toSparray: () => Sparray<{ key: string, values: R }> }
+  /**
+   * Groups the elements by a key. The result will be an object where the keys are provided by keyFn and the values are provided by valuesFn.
+   * @see indexBy
+   * @param keyFn  - function to provide a key by element
+   * @param valuesFn  - function to provide values by element
+   */
+  groupBy<R>(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number, valuesFn: (sparray: Sparray<T>, key: string) => R): { [key: string]: R } & { toSparray: () => Sparray<{ key: string, values: R }> }
+  groupBy(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number, valuesFn?: (sparray: Sparray<T>, key: string) => any): { [key: string]: any } {
+    const groupped = this.data.reduce((acc, curr, index) => {
+      const key = String(keyFn(curr, index, this))
+      acc[key] = [...(acc[key] ?? []), curr]
+      return acc
+    }, {} as { [key: string]: T[] })
+
+    const getValues = valuesFn ?? (sparray => sparray)
+    const grouppedSparrays = {} as { [key: string]: any }
+    for (const key of Object.keys(groupped)) {
+      grouppedSparrays[key] = getValues(from(groupped[key]), key)
+    }
+
+    Object.defineProperty(grouppedSparrays, 'toSparray', {
+      value: (): Sparray<{ key: string, values: any }> => {
+        return fromArray(Object.keys(grouppedSparrays))
+          .map(key => ({ key, values: grouppedSparrays[key] }))
+      },
+      configurable: false,
+      enumerable: false,
+    })
+
+    return grouppedSparrays
+  }
+
+  /**
    * Returns the string representation of the sparray and its elements
    */
   toString(): string {

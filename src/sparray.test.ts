@@ -997,6 +997,56 @@ describe('Sparray', () => {
     })
   })
 
+  describe('groupBy', () => {
+    const sut = from({ a: 1, b: 1 }, { a: 1, b: 2 }, { a: 2, b: 3 }, { a: 2, b: 4 })
+
+    it('should return an object where key as keys are the index and an sparray of matching elements are the values', () => {
+      const groupped = sut.groupBy(element => element.a)
+      expect(groupped).toEqual({
+        '1': { _data: [{ a: 1, b: 1 }, { a: 1, b: 2 }] },
+        '2': { _data: [{ a: 2, b: 3 }, { a: 2, b: 4 }] },
+      })
+    })
+
+    it('should return values according to valuesFn', () => {
+      const groupped = sut.groupBy(element => element.a, sparray => sparray.map(element => element.b))
+      expect(groupped).toEqual({
+        '1': { _data: [1, 2] },
+        '2': { _data: [3, 4] },
+      })
+    })
+
+    it('should produce an object that can be turned back to sparray', () => {
+      const groupped = sut.groupBy(element => element.a)
+      const grouppedSparrays = groupped.toSparray() as Sparray<unknown>
+      assertEqual(grouppedSparrays, [
+        { key: '1', values: { _data: [{ a: 1, b: 1 }, { a: 1, b: 2 }] } },
+        { key: '2', values: { _data: [{ a: 2, b: 3 }, { a: 2, b: 4 }] } },
+      ])
+    })
+
+    it('should provide the current element, index and sparray as params to keyFn', () => {
+      const keyFn = jest.fn().mockReturnValue('a')
+      const sut = from(1, 2, 3)
+      sut.groupBy(keyFn)
+
+      expect(keyFn).toBeCalledTimes(3)
+      expect(keyFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
+      expect(keyFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
+      expect(keyFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
+    })
+
+    it('should provide the groupped sparray and key as valuesFn params', () => {
+      const valueFn = jest.fn().mockReturnValue('a')
+      const sut = from(1, 2, 3)
+      sut.groupBy(a => a <= 2 ? '<=' : '>', valueFn)
+
+      expect(valueFn).toBeCalledTimes(2)
+      expect(valueFn).toHaveBeenNthCalledWith(1, { _data: [1, 2] }, '<=')
+      expect(valueFn).toHaveBeenNthCalledWith(2, { _data: [3] }, '>')
+    })
+  })
+
   describe('toString', () => {
     it('should return "[ ]" to empty sparrays', () => {
       const sut = empty()
