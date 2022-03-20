@@ -37,6 +37,16 @@ export function from(data: Set<number>): NumericSparray
  */
 export function from<T>(data: Set<T>): Sparray<T>
 /**
+* Build a numericSparray from another numericSparray
+* @param data numeric sparray
+*/
+export function from(data: NumericSparray): NumericSparray
+/**
+ * Build a sparray from another sparray
+ * @param data sparray
+ */
+export function from<T>(data: Sparray<T>): Sparray<T>
+/**
  * Build a numericSparray from the colection of numeric arguments
  * @param data collection of numbers
  */
