@@ -379,6 +379,12 @@ describe('Sparray', () => {
       expect(mapFn).toHaveBeenNthCalledWith(1, 1, 0, sut)
       expect(mapFn).toHaveBeenNthCalledWith(2, 2, 1, sut)
     })
+
+    it('should flat internal sparrays', () => {
+      const sut = from([1, 2], [3, 4])
+      const flatMapped = sut.flatMap(a => from(a))
+      assertEqual(flatMapped, [1, 2, 3, 4])
+    })
   })
 
   describe('flat', () => {

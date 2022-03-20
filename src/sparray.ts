@@ -313,6 +313,16 @@ export class Sparray<T>{
     return fromArray(mappedData)
   }
 
+  /*
+   * Build a new sparray by transforming the elements according to the mapFn function and flatten the resultant sparrays.
+   * @param mapFn - transformation function
+   */
+  flatMap<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => Sparray<R>): Sparray<R>
+  /*
+   * Build a new sparray by transforming the elements according to the mapFn function and flatten the resultant sparrays.
+   * @param mapFn - transformation function
+   */
+  flatMap(mapFn: (element: T, index: number, sparray: Sparray<T>) => NumericSparray): NumericSparray
   /**
    * Build a new NumericSparray by transforming the elements according to the mapFn function and flatten the resultant arrays.
    * @param mapFn - transformation function
@@ -323,8 +333,15 @@ export class Sparray<T>{
    * @param mapFn - transformation function
    */
   flatMap<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R[]): Sparray<R>
-  flatMap<R>(mapFn: (element: T, index: number, sparray: Sparray<T>) => R[]): Sparray<R> | NumericSparray {
-    const mappedData = this.data.flatMap((element, index) => mapFn(element, index, this))
+  flatMap(mapFn: (element: T, index: number, sparray: Sparray<T>) => any): any {
+    const mappedData = this.data
+      .flatMap((element, index) => {
+        const mapped = mapFn(element, index, this)
+        if (mapped instanceof Sparray)
+          return mapped.toArray()
+        else
+          return mapped
+      })
     return fromArray(mappedData)
   }
 
