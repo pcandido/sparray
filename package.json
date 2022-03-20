@@ -20,6 +20,14 @@
   ],
   "author": "Paulo Cândido <pcandido.m@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pcandido/sparray.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pcandido/sparray/issues"
+  },
+  "homepage": "https://github.com/pcandido/sparray#readme",
   "devDependencies": {
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
