@@ -193,7 +193,7 @@ const spr = empty()
 Here you will find all the operations you can do with your Sparray.
 
 ### at()
-It is the most common way to get an element of a specific position of an sparray. It takes an index as param. If negative, the search will be backward.
+It is the most common way to get an element of a specific position of a sparray. It takes an index as param. If negative, the search will be backward.
 
 ```js
 const spr = from(1, 2, 3, 4, 5)
@@ -257,7 +257,7 @@ for(const [key, value] of spr.entries()){
 ```
 
 ### enumerate()
-Similar to entries, `enumerate()` exposes the index and value for each element, but instead of return an iterator, the return is an sparray. Each element of resultant sparray is an object containing `index` and `value`.
+Similar to entries, `enumerate()` exposes the index and value for each element, but instead of returning an iterator, the return is a sparray. Each element of resultant sparray is an object containing `index` and `value`.
 
 ```js
 const spr = from(1, 2, 3, 4, 5)
@@ -293,7 +293,7 @@ spr.size()
 ```
 
 ### count()
-As `length` and `size()`, `count` will return the number of elements of the sparray. But `count()` also can count just elements that match a condition, expressed by a conditionFn.
+As `length` and `size()`, `count` will return the number of elements of the sparray. But `count()` also can count just elements that match a condition, expressed by a `conditionFn`.
 
 ```js
 const spr = from(1, 2, 3, 4, 5)
@@ -339,7 +339,7 @@ spr.toArray()
 // [ 1, 2, 3, 4, 5 ]
 ```
 
-Note changes on generated array will not reflect on sparray.
+Note changes on the generated array will not reflect on sparray.
 
 ```js
 const spr = from(1, 2, 3, 4, 5)
@@ -369,14 +369,62 @@ const set = spr.toSet()
 
 set.add(4)
 
-// set = Set(4) { 1, 2, 3, 4 }
 // spr = [ 1, 2, 3, 1, 2, 3 ]
+// set = Set(4) { 1, 2, 3, 4 }
 
 ```
 
 ### map()
+Transform elements of sparray. For each element on sparray, `mapFn` will be called with the element itself, its index, and the entire sparray as params. All the `mapFn` returns will form the transformed sparray. Note the original sparray does not change.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+const mapped = spr.map((value, index, sparray) => value * 2)
+
+// spr = [ 1, 2, 3, 4, 5 ]
+// mapped = [ 2, 4, 6, 8, 10 ]
+```
+
 ### flatMap()
+Different of `map()`, `flatMap()` expects an array or sparray as return of `mapFn`. The returned collections will be spread/flat onto the resultant sparray.
+
+```js
+const spr = from(1, 2, 3)
+const mapped = spr.map((value, index, sparray) => repeat(value, value))
+const flatMapped = spr.flatMap((value, index, sparray) => repeat(value, value))
+
+// mapped = [ [ 1 ], [ 2, 2 ], [ 3, 3, 3 ] ]
+// flatMapped = [ 1, 2, 2, 3, 3, 3 ]
+```
+
 ### flat()
+Flats the inner arrays/sparrays to the root sparray.
+
+```js
+const spr = from([1, 2, 3], [4, 5, 6])
+const flatted = spr.flat()
+
+//spr = [ [ 1, 2, 3 ], [ 4, 5, 6 ] ]
+//flatted = [ 1, 2, 3, 4, 5, 6 ]
+```
+
+It is also possible to determine how depth the flat operation should reach. `0` will not flat anything, `1` will flat the first level of arrays/sparrays, and so on.
+
+```js
+const spr = from([1, [2, [3, [4]]]])
+const level0 = spr.flat(0)
+const level1 = spr.flat(1)
+const level2 = spr.flat(2)
+const level3 = spr.flat(3)
+const level4 = spr.flat(4)
+
+// level0 = [ 1, [ 2, [ 3, [ 4 ] ] ] ]
+// level1 = [ 1, 2, [ 3, [ 4 ] ] ]
+// level2 = [ 1, 2, 3, [ 4 ] ]
+// level3 = [ 1, 2, 3, 4 ]
+// level4 = [ 1, 2, 3, 4 ]
+```
+
 ### reduce()
 ### reduceRight()
 ### filter()
