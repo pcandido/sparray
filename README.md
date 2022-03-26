@@ -7,6 +7,8 @@ A convenient, simple, chainable, and 0-dependencies library to handle arrays/lis
 ![GitHub issues](https://img.shields.io/github/issues-raw/pcandido/sparray)
 ![Licence](https://img.shields.io/npm/l/sparray)
 
+Jump to [Table of contents](#table-of-contents)
+
 ---
 ## 🚀 Getting start
 
@@ -30,7 +32,7 @@ A convenient, simple, chainable, and 0-dependencies library to handle arrays/lis
 ---
 ## 🧬 Concepts
 
-###  Sparrays are immutable.
+###  Sparrays are immutable
 You will not find any method that allows you to change a sparray (such as push, pop, etc).
 Instead, any operation will always create a new sparray. Immutability helps you keep control of your data and mitigate problems due to side effects.
 
@@ -1124,3 +1126,70 @@ spr.avg()
 // 3
 ```
 
+---
+## 📖 Table of contents
+
+- [sparray](#sparray)
+  - [🚀 Getting start](#-getting-start)
+  - [🧬 Concepts](#-concepts)
+    - [Sparrays are immutable](#sparrays-are-immutable)
+    - [Sparrays are chainable](#sparrays-are-chainable)
+    - [Sparrays are not arrays](#sparrays-are-not-arrays)
+  - [🔨 Factories](#-factories)
+    - [from()](#from)
+    - [range()](#range)
+    - [repeat()](#repeat)
+    - [empty()](#empty)
+  - [🧮 Operations](#-operations)
+    - [at()](#at)
+    - [keys()](#keys)
+    - [values()](#values)
+    - [entries()](#entries)
+    - [enumerate()](#enumerate)
+    - [length](#length)
+    - [size()](#size)
+    - [count()](#count)
+    - [isEmpty()](#isempty)
+    - [isNotEmpty()](#isnotempty)
+    - [toString()](#tostring)
+    - [toArray()](#toarray)
+    - [toSet()](#toset)
+    - [map()](#map)
+    - [flatMap()](#flatmap)
+    - [flat()](#flat)
+    - [reduce()](#reduce)
+    - [reduceRight()](#reduceright)
+    - [filter()](#filter)
+    - [forEach()](#foreach)
+    - [distinct()](#distinct)
+    - [join()](#join)
+    - [some()](#some)
+    - [every()](#every)
+    - [concat()](#concat)
+    - [find()](#find)
+    - [findIndex()](#findindex)
+    - [indexOf()](#indexof)
+    - [lastIndexOf()](#lastindexof)
+    - [includes()](#includes)
+    - [includesAll()](#includesall)
+    - [includesAny()](#includesany)
+    - [reverse()](#reverse)
+    - [first()](#first)
+    - [last()](#last)
+    - [sort()](#sort)
+    - [sortBy()](#sortby)
+    - [min()](#min)
+    - [max()](#max)
+    - [minBy()](#minby)
+    - [maxBy()](#maxby)
+    - [slice()](#slice)
+    - [indexBy()](#indexby)
+    - [groupBy()](#groupby)
+    - [sliding()](#sliding)
+    - [zip()](#zip)
+    - [cross()](#cross)
+    - [sample()](#sample)
+  - [🧮 Numeric Operations](#-numeric-operations)
+    - [sum()](#sum)
+    - [avg()](#avg)
+  - [📖 Table of contents](#-table-of-contents)
