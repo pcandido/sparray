@@ -624,28 +624,28 @@ export class Sparray<T>{
 
   /**
    * Calculates the element that has the min value, privided by minByFn
-   * @param minByFn function to provide a comparable value
+   * @param keyFn function to provide a comparable value
    */
-  minBy(minByFn: (element: T) => any): T | undefined {
+  minBy(keyFn: (element: T) => any): T | undefined {
     if (this.isEmpty())
       return undefined
 
     return this.data
-      .map(element => ({ element, value: minByFn(element) }))
+      .map(element => ({ element, value: keyFn(element) }))
       .reduce((a, b) => a.value < b.value ? a : b)
       .element
   }
 
   /**
    * Calculates the element that has the max value, privided by maxByFn
-   * @param maxByFn function to provide a comparable value
+   * @param keyFn function to provide a comparable value
    */
-  maxBy<C>(maxByFn: (element: T) => C): T | undefined {
+  maxBy<C>(keyFn: (element: T) => C): T | undefined {
     if (this.isEmpty())
       return undefined
 
     return this.data
-      .map(element => ({ element, value: maxByFn(element) }))
+      .map(element => ({ element, value: keyFn(element) }))
       .reduce((a, b) => a.value > b.value ? a : b)
       .element
   }
@@ -742,30 +742,30 @@ export class Sparray<T>{
    * @param keyFn  - function to provide a key by element
    * @param valuesFn  - function to provide values by element
    */
-  groupBy<R>(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number, valuesFn: (sparray: Sparray<T>, key: string) => R): { [key: string]: R } & { toSparray: () => Sparray<{ key: string, values: R }> }
-  groupBy(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number, valuesFn?: (sparray: Sparray<T>, key: string) => any): { [key: string]: any } {
-    const groupped = this.data.reduce((acc, curr, index) => {
+  groupBy<R>(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number, valuesFn: (grouped: Sparray<T>, key: string) => R): { [key: string]: R } & { toSparray: () => Sparray<{ key: string, values: R }> }
+  groupBy(keyFn: (element: T, index: number, sparray: Sparray<T>) => string | number, valuesFn?: (grouped: Sparray<T>, key: string) => any): { [key: string]: any } {
+    const grouped = this.data.reduce((acc, curr, index) => {
       const key = String(keyFn(curr, index, this))
       acc[key] = [...(acc[key] ?? []), curr]
       return acc
     }, {} as { [key: string]: T[] })
 
     const getValues = valuesFn ?? (sparray => sparray)
-    const grouppedSparrays = {} as { [key: string]: any }
-    for (const key of Object.keys(groupped)) {
-      grouppedSparrays[key] = getValues(from(groupped[key]), key)
+    const groupedSparrays = {} as { [key: string]: any }
+    for (const key of Object.keys(grouped)) {
+      groupedSparrays[key] = getValues(from(grouped[key]), key)
     }
 
-    Object.defineProperty(grouppedSparrays, 'toSparray', {
+    Object.defineProperty(groupedSparrays, 'toSparray', {
       value: (): Sparray<{ key: string, values: any }> => {
-        return fromArray(Object.keys(grouppedSparrays))
-          .map(key => ({ key, values: grouppedSparrays[key] }))
+        return fromArray(Object.keys(groupedSparrays))
+          .map(key => ({ key, values: groupedSparrays[key] }))
       },
       configurable: false,
       enumerable: false,
     })
 
-    return grouppedSparrays
+    return groupedSparrays
   }
 
   /**

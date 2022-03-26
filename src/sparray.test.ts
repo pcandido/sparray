@@ -1075,25 +1075,25 @@ describe('Sparray', () => {
     const sut = from({ a: 1, b: 1 }, { a: 1, b: 2 }, { a: 2, b: 3 }, { a: 2, b: 4 })
 
     it('should return an object where key as keys are the index and an sparray of matching elements are the values', () => {
-      const groupped = sut.groupBy(element => element.a)
-      expect(groupped).toEqual({
+      const grouped = sut.groupBy(element => element.a)
+      expect(grouped).toEqual({
         '1': { _data: [{ a: 1, b: 1 }, { a: 1, b: 2 }] },
         '2': { _data: [{ a: 2, b: 3 }, { a: 2, b: 4 }] },
       })
     })
 
     it('should return values according to valuesFn', () => {
-      const groupped = sut.groupBy(element => element.a, sparray => sparray.map(element => element.b))
-      expect(groupped).toEqual({
+      const grouped = sut.groupBy(element => element.a, sparray => sparray.map(element => element.b))
+      expect(grouped).toEqual({
         '1': { _data: [1, 2] },
         '2': { _data: [3, 4] },
       })
     })
 
     it('should produce an object that can be turned back to sparray', () => {
-      const groupped = sut.groupBy(element => element.a)
-      const grouppedSparrays = groupped.toSparray() as Sparray<unknown>
-      assertEqual(grouppedSparrays, [
+      const grouped = sut.groupBy(element => element.a)
+      const groupedSparrays = grouped.toSparray() as Sparray<unknown>
+      assertEqual(groupedSparrays, [
         { key: '1', values: { _data: [{ a: 1, b: 1 }, { a: 1, b: 2 }] } },
         { key: '2', values: { _data: [{ a: 2, b: 3 }, { a: 2, b: 4 }] } },
       ])
@@ -1110,7 +1110,7 @@ describe('Sparray', () => {
       expect(keyFn).toHaveBeenNthCalledWith(3, 3, 2, sut)
     })
 
-    it('should provide the groupped sparray and key as valuesFn params', () => {
+    it('should provide the grouped sparray and key as valuesFn params', () => {
       const valueFn = jest.fn().mockReturnValue('a')
       const sut = from(1, 2, 3)
       sut.groupBy(a => a <= 2 ? '<=' : '>', valueFn)
