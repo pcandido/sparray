@@ -1100,5 +1100,27 @@ const s2 = spr.sample(3, true)
 // s2 = [ 3, 4, 3 ]
 ```
 
+## 🧮 Numeric Operations
+
+NumericSparray is a special type of Sparray, which all its elements are numbers. In this case, there are special operations could be performed.
+
 ### sum()
+Sums all the elements of the sparray.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.sum()
+
+// 15
+```
+
 ### avg()
+Calculates the average of all the elements of the sparray.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.avg()
+
+// 3
+```
+
