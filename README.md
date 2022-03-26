@@ -7,7 +7,7 @@ A convenient, simple, chainable, and 0-dependencies library to handle arrays/lis
 ![GitHub issues](https://img.shields.io/github/issues-raw/pcandido/sparray)
 ![Licence](https://img.shields.io/npm/l/sparray)
 
-Jump to [Table of contents](#table-of-contents)
+Jump to [📖 Table of contents](#-table-of-contents)
 
 ---
 ## 🚀 Getting start
