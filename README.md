@@ -426,37 +426,679 @@ const level4 = spr.flat(4)
 ```
 
 ### reduce()
+Reduce the values of sparray by accumulating their values in an accumulator, from the first to the last element. When all elements were processed, the accumulated value is returned.
+
+For each element, `reduceFn` will receive the accumulated value, the current element, the current index, and finally, the sparray itself.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.reduce((accumulated, current, currentIndex, sparray) => accumulated + current)
+
+// 15
+```
+
+At the first pass, the first element is given as accumulated value while the second one is given as current. But it is also possible to provide an initial value. In this case, at the first pass, the initial value is given as accumulated value while the first element is given as current.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.reduce((accumulated, current) => accumulated + current, -10)
+
+// 5
+```
+
 ### reduceRight()
+Reduce the values of sparray by accumulating their values in an accumulator, from the last to the first element. When all elements were processed, the accumulated value is returned.
+
+For each element, `reduceFn` will receive the accumulated value, the current element, the current index, and finally, the sparray itself.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.reduceRight((accumulated, current) => accumulated - current)
+
+// -5
+```
+
+At the first pass, the last element is given as accumulated value while the second last one is given as current. But it is also possible to provide an initial value. In this case, at the first pass, the initial value is given as accumulated value while the last element is given as current.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.reduceRight((accumulated, current) => accumulated - current, 20)
+
+// 5
+```
+
 ### filter()
+Creates a new sparray with only the elements that match criteria, i.e. elements that returned true to `filterFn`.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.filter((element, index, sparray) => element & 2 === 0)
+
+// [ 2, 4 ]
+```
+
 ### forEach()
+Pass through all the elements of sparray and calls `forEachFn` to each one, with the element, its index and the entire sparray. Differently of array, sparray's forEach returns itself, so that you can continue chaining the methods.
+
+```js
+const spr = from(1, 2, 3)
+
+const count = spr
+  .forEach((element, index, sparray) => console.log(element))
+  .count()
+
+// console:
+//   1
+//   2
+//   3
+
+//count = 3
+```
+
+Note `forEachFn` return is completely ignored. If you need to use the return, consider using `map()` instead.
+
+```js
+const spr = from(1, 2, 3)
+const spr2 = spr.forEach(element => element * 2)
+const spr3 = spr.map(element => element * 2)
+
+// spr = [ 1, 2, 3 ]
+// spr2 = [ 1, 2, 3 ]
+// spr3 = [ 2, 4, 6 ]
+```
+
 ### distinct()
+Removes all the duplicated values from sparray. In terms of element order, only the first occurrence will be preserved.
+
+```js
+const spr = from(1, 2, 2, 3, 2, 3)
+spr.distinct()
+
+// [ 1, 2, 3 ]
+```
+
 ### join()
+Builds a string joining all the elements of sparray. The default separator is the `,` (comma), but it is possible to provide the desired separator.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.join(' | ')
+
+// '1 | 2 | 3 | 4 | 5'
+```
+
+It is also possible to change only the last separator.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.join(', ', ', and ')
+
+// '1, 2, 3, 4, and 5'
+```
+
 ### some()
+Returns true if **any** of the sparray elements match the `someFn` criteria. Returns false otherwise.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+
+const hasLessThan10 = spr.some((element, index, sparray) => element < 10)
+const hasGreaterThan10 = spr.some((element, index, sparray) => element > 10)
+
+// hasLessThan10 = true
+// hasGreaterThan10 = false
+```
+
 ### every()
+Returns true if **all** of the sparray elements match the `everyFn` criteria. Returns false otherwise.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+
+const hasLessThan10 = spr.some((element, index, sparray) => element < 10)
+const hasGreaterThan3 = spr.some((element, index, sparray) => element > 3)
+
+// hasLessThan10 = true
+// hasGreaterThan3 = false
+```
+
 ### concat()
+Generates a new sparray, concatenating the provide arrays/sparrays/elements.
+
+```js
+const spr = from(1, 2, 3)
+spr.concat(range(4,7), [7, 8, 9], 10)
+
+// [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+```
+
 ### find()
+Returns the first element that matches the `findFn` criteria. If no element matches, undefined is returned.
+
+```js
+const spr = from(1, 2, 3)
+
+const found1 = spr.find((element, index, sparray) => element > 1)
+const found2 = spr.find(element => element > 5)
+
+// found1 = 2
+// found2 = undefined
+```
+
 ### findIndex()
+Returns the index of the first element that matches the `findFn` criteria. If no element matches, `-1` is returned.
+
+```js
+const spr = from(1, 2, 3)
+
+const found1 = spr.findIndex((element, index, sparray) => element > 1)
+const found2 = spr.findIndex(element => element > 5)
+
+// found1 = 1
+// found2 = -1
+```
+
 ### indexOf()
+Returns the first index of given element. If element is not in sparray, returns `-1`.
+
+```js
+const spr = from(1, 2, 3)
+
+const index2 = spr.indexOf(2)
+const index5 = spr.indexOf(5)
+
+// index2 = 1
+// index5 = -1
+```
+
 ### lastIndexOf()
+Returns the last index of given element. If element is not in sparray, returns `-1`.
+
+```js
+const spr = from(1, 2, 3, 1, 2, 3)
+
+const index2 = spr.indexOf(2)
+const index5 = spr.indexOf(5)
+
+// index2 = 4
+// index5 = -1
+```
+
 ### includes()
+Returns `true` if sparray has the given element. Returns `false` otherwise.
+
+```js
+const spr = from(1, 2, 3)
+
+const includes2 = spr.includes(2)
+const includes5 = spr.includes(5)
+
+// includes2 = true
+// includes5 = false
+```
+
 ### includesAll()
+Returns `true` if sparray has all the given elements. Returns `false` otherwise.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+
+const includes3_4_5 = spr.includesAll(3, 4, 5)
+const includes4_5_6 = spr.includesAll(4, 5, 6)
+
+// includes3_4_5 = true
+// includes4_5_6 = false
+```
+
 ### includesAny()
+Returns `true` if sparray has any of the given elements. Returns `false` otherwise.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+
+const includes4_5_6 = spr.includesAll(4, 5, 6)
+const includes6_7_8 = spr.includesAll(6, 7, 8)
+
+// includes4_5_6 = true
+// includes6_7_8 = false
+```
+
 ### reverse()
+Generates a new sparray in the reverse order. Note the original sparray is not changed.
+
+```js
+const spr = from(1, 2, 3)
+const reversed = spr.reverse()
+
+// spr = [ 1, 2, 3 ]
+// reversed = [ 3, 2, 1 ]
+```
+
 ### first()
+Returns the first element of the sparray. Equivalent to `.at(0)`.
+
+```js
+const spr = from(1, 2, 3)
+spr.first()
+
+// 1
+```
+
+It is also possible to ask for the first `n` elements. In this case a new sparray will be returned. Equivalent to `.slice(0, n)`.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.first(3)
+
+// [ 1, 2, 3 ]
+```
+
 ### last()
+Returns the last element of the sparray. Equivalent to `.at(-1)`.
+
+```js
+const spr = from(1, 2, 3)
+spr.last()
+
+// 3
+```
+
+It is also possible to ask for the last `n` elements. In this case a new sparray will be returned. Equivalent to `.slice(-n)`.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.last(3)
+
+// [ 3, 4, 5 ]
+```
+
 ### sort()
+Sorts the elements of the sparray. If no `sortFn` is provided, the elements will be sorted by their natural order. Note a new sparray is generated, and the original one does not change.
+
+```js
+const spr = from(2, 5, 3, 1, 4)
+const sorted = spr.sort()
+
+// spr = [ 2, 5, 3, 1, 4 ]
+// sorted = [ 1, 2, 3, 4, 5 ]
+```
+
+The `sortFn` receive a pair of elements and should determine which one is greatest. A returned value less than zero (`< 0`) means the first element should be placed before the second. A returned value greater than zero (`> 0`) means the first element should be placed after the second. A returned value equal to zero (`=== 0`) means both elements have the same order value.
+
+```js
+const spr = from(2, 5, 3, 1, 4)
+
+const didactic = spr.sort((el1, el2) => {
+  if (el1 < el2) return -1
+  if( el1 > el2) return 1
+  return 0
+})
+
+const straightforward = spr.sort((el1, el2) => el1 - el2)
+
+// spr = [ 2, 5, 3, 1, 4 ]
+// didactic = [ 1, 2, 3, 4, 5 ]
+// straightforward = [ 1, 2, 3, 4, 5 ]
+```
+
 ### sortBy()
+Sorts the elements by natural order of the value returned by `keyFn`.
+
+```js
+const spr = from(
+  {a: 3, b: 1},
+  {a: 5, b: 2},
+  {a: 1, b: 3},
+  {a: 4, b: 4},
+  {a: 2, b: 5},
+)
+
+spr.sortBy(element => element.a)
+
+// {a: 1, b: 3},
+// {a: 2, b: 5},
+// {a: 3, b: 1},
+// {a: 4, b: 4},
+// {a: 5, b: 2}
+```
+
+It is also possible to sort elements by a key in reverse order.
+
+```js
+const spr = from(1, 2, 3)
+spr.sortBy(element => element % 3, true)
+
+// [ 2, 1, 3 ]
+```
+
 ### min()
+Returns the minimum value of sparray, considering the natural order.
+
+```js
+const spr = from(2, 5, 3, 1, 4)
+spr.min()
+
+// 1
+```
+
 ### max()
+Returns the maximum value of sparray, considering the natural order.
+
+```js
+const spr = from(2, 5, 3, 1, 4)
+spr.max()
+
+// 5
+```
+
 ### minBy()
+Returns the minimum value of sparray, considering the natural order of a key determined by the `keyFn`.
+
+```js
+const spr = from(
+  {a: 3, b: 1},
+  {a: 5, b: 2},
+  {a: 1, b: 3},
+  {a: 4, b: 4},
+  {a: 2, b: 5},
+)
+
+spr.minBy(element => element.a)
+
+// {a: 1, b: 3}
+```
+
 ### maxBy()
+Returns the maximum value of sparray, considering the natural order of a key determined by the `keyFn`.
+
+```js
+const spr = from(
+  {a: 3, b: 1},
+  {a: 5, b: 2},
+  {a: 1, b: 3},
+  {a: 4, b: 4},
+  {a: 2, b: 5},
+)
+
+spr.maxBy(element => element.a)
+
+// {a: 5, b: 2}
+```
+
 ### slice()
+Returns a new sparray with a slice of the original one. If just a parameter `n` is provided, the slice will be from the `n`-th element (inclusive) to the end of sparray.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.slice(3)
+
+// [ 4, 5 ]
+```
+
+If two parameters are provided, the slice will be from the the first index (inclusive) to the second index (exclusive).
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+spr.slice(1, 4)
+
+// [ 2, 3, 4 ]
+```
+
+Note is also possible to use negative/backward indices.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+
+const slice1 = spr.slice(-4)
+const slice2 = spr.slice(-4, 4)
+
+// [ 2, 3, 4, 5 ]
+// [ 2, 3, 4 ]
+```
+
 ### indexBy()
+Indexes the elements of the sparray according to the key returned by `keyFn`. The resultant value is an object, where keys are the indexed keys, and values are the elements themselves. Note if there are multiple elements that returns the same key, just the last will be indexed (if it was not you expected, see groupBy).
+
+```js
+const spr = from(
+  { a: 3, b: 1 },
+  { a: 2, b: 2 },
+  { a: 1, b: 3 },
+  { a: 2, b: 4 },
+)
+spr.indexBy((element, index, sparray) => element.a)
+
+// {
+//   '1': { a: 1, b: 3 },
+//   '2': { a: 2, b: 4 },
+//   '3': { a: 3, b: 1 },
+// }
+```
+
+It is also possible to provide a `valueFn`, to handle the value from each key.
+
+```js
+const spr = from(
+  { a: 3, b: 1 },
+  { a: 2, b: 2 },
+  { a: 1, b: 3 },
+  { a: 2, b: 4 },
+)
+spr.indexBy(
+  (element, index, sparray) => element.a,
+  (element, key, index, sparray) => element.b,
+)
+
+// {
+//   '1': 3,
+//   '2': 4,
+//   '3': 1,
+// }
+```
+
+Finally, it is possible to get back to sparray structure, and continue chaining.
+
+```js
+const spr = from(
+  {a: 3, b: 1},
+  {a: 2, b: 2},
+  {a: 1, b: 3},
+  {a: 2, b: 4},
+)
+spr.indexBy(e => e.a, e => e.b).toSparray()
+
+// [
+//   { key: '1', value: 3 },
+//   { key: '2', value: 4 },
+//   { key: '3', value: 1 },
+// ]
+```
+
 ### groupBy()
+Similar to `indexBy`, but return a sparray of elements instead of only the last one that match with a specific key.
+
+```js
+const spr = from(
+  {a: 3, b: 1},
+  {a: 2, b: 2},
+  {a: 1, b: 3},
+  {a: 2, b: 4},
+)
+spr.groupBy((element, index, sparray) => element.a)
+
+// {
+//   '1': [ { a: 1, b: 3 } ],
+//   '2': [ { a: 2, b: 2 }, { a: 2, b: 4 } ],
+//   '3': [ { a: 3, b: 1 } ],
+// }
+```
+
+It is also possible to handle values by `valuesFn`.
+
+```js
+const spr = from(
+  {a: 3, b: 1},
+  {a: 2, b: 2},
+  {a: 1, b: 3},
+  {a: 2, b: 4},
+)
+spr.groupBy(
+  (element, index, sparray) => element.a,
+  (grouped, key) => grouped.size(),
+)
+
+// {
+//   '1': 1,
+//   '2': 2,
+//   '3': 1,
+// }
+```
+
+Finally, it is possible to get back to sparray structure, and continue chaining.
+
+```js
+const spr = from(
+  {a: 3, b: 1},
+  {a: 2, b: 2},
+  {a: 1, b: 3},
+  {a: 2, b: 4},
+)
+spr.groupBy(e => e.a).toSparray()
+
+// [
+//   { key: '1', values: [ { a: 1, b: 3 } ] },
+//   { key: '2', values: [ { a: 2, b: 2 }, { a: 2, b: 4 } ] },
+//   { key: '3', values: [ { a: 3, b: 1 } ] },
+// ]
+```
+
 ### sliding()
+Partitions the sparray in sub-sparrays of given size.
+
+```js
+const spr = range(1, 11)
+spr.sliding(3)
+
+// [
+//   [ 1, 2, 3 ],
+//   [ 4, 5, 6 ],
+//   [ 7, 8, 9 ],
+//   [ 10 ],
+// ]
+```
+
+It is also possible to change the step size, so that creating overlaps or holes between partitions.
+
+```js
+const spr = range(1, 11)
+const sliding1 = spr.sliding(3, 2)
+const sliding2 = spr.sliding(3, 4)
+
+// sliding1 = [
+//   [ 1, 2, 3 ],
+//   [ 3, 4, 5 ],
+//   [ 5, 6, 7 ],
+//   [ 7, 8, 9 ],
+//   [ 9, 10 ],
+// ]
+
+// sliding2 = [
+//   [ 1, 2, 3 ],
+//   [ 5, 6, 7 ],
+//   [ 9, 10 ],
+// ]
+```
+
 ### zip()
+Generates a new sparray with each element being an array. Each position `i-th` of the new sparray will be the `i-th` element of the original sparray plus the other provided arrays/sparrays. The first element of the internal array will be from the original sparray, and each subsequent element will be defined according to the provided arrays/sparrays.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+const toZip1 = from(6, 7, 8, 9, 10, 11, 12)
+const toZip2 = ['a', 'b', 'c']
+
+spr.zip(toZip1, toZip2)
+
+// [
+//   [ 1, 6, 'a' ],
+//   [ 2, 7, 'b' ],
+//   [ 3, 8, 'c' ]
+//   [ 4, 9, undefined ]
+//   [ 5, 10, undefined ]
+// ]
+```
+
 ### cross()
+Generates a new sparray with Cartesian Product from the sparray and another sparray/array.
+
+```js
+const spr1 = from('J', 'Q', 'K')
+const spr2 = from('♠', '♥', '♦', '♣')
+
+spr.cross(spr2)
+
+// [
+//   [ 'J', '♠' ],
+//   [ 'J', '♥' ],
+//   [ 'J', '♦' ],
+//   [ 'J', '♣' ],
+//   [ 'Q', '♠' ],
+//   [ 'Q', '♥' ],
+//   [ 'Q', '♦' ],
+//   [ 'Q', '♣' ],
+//   [ 'K', '♠' ],
+//   [ 'K', '♥' ],
+//   [ 'K', '♦' ],
+//   [ 'K', '♣' ],
+// ]
+```
+
+It is also possible to provide a `combineFn` that receives both elements and return a combined value.
+
+```js
+const spr1 = from('J', 'Q', 'K')
+const spr2 = from('♠', '♥', '♦', '♣')
+
+spr.cross(spr2, (el1, el2) => `${el1}${el2}`)
+
+// [
+//   'J ♠',
+//   'J ♥',
+//   'J ♦',
+//   'J ♣',
+//   'Q ♠',
+//   'Q ♥',
+//   'Q ♦',
+//   'Q ♣',
+//   'K ♠',
+//   'K ♥',
+//   'K ♦',
+//   'K ♣',
+// ]
+```
+
 ### sample()
+Returns a randomly selected value from sparray.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+const v1 = spr.sample()
+const v2 = spr.sample()
+
+// v1 = 2
+// v2 = 5
+```
+
+If an integer is provided, the sparray will select this quantity of samples. It will be necessary to define if the selected values could or could not be selected again.
+
+```js
+const spr = from(1, 2, 3, 4, 5)
+const s1 = spr.sample(3, false)
+const s2 = spr.sample(3, true)
+
+// s1 = [ 1, 4, 2 ]
+// s2 = [ 3, 4, 3 ]
+```
 
 ### sum()
 ### avg()
