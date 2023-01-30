@@ -3,7 +3,7 @@
 A convenient, simple, chainable, and 0-dependencies library to handle arrays/lists.
 
 ![npm](https://img.shields.io/npm/v/sparray)
-![Publish Pipeline](https://img.shields.io/github/workflow/status/pcandido/sparray/publish)
+![Publish Pipeline](https://img.shields.io/github/actions/workflow/status/pcandido/sparray/publish.yml?branch=main)                    
 ![GitHub issues](https://img.shields.io/github/issues-raw/pcandido/sparray)
 ![Licence](https://img.shields.io/npm/l/sparray)
 
