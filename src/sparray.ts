@@ -951,4 +951,63 @@ export class NumericSparray extends Sparray<number>{
     return this.sum() / this.length
   }
 
+  histogram(bins: number, range?: { min: number, max: number }): Sparray<{ start: number, end: number, count: number }> {
+    if (bins < 1 || Math.trunc(bins) !== bins) {
+      throw new Error('bins must be a positive integer')
+    }
+
+    const min = range?.min ?? this.min() ?? 0
+    const max = range?.max ?? this.max() ?? 0
+    const rangeSize = max - min
+    const foldSize = rangeSize / bins
+
+    const histogramData = []
+    for (let bin = 0; bin < bins; bin++) {
+      histogramData.push({
+        start: (foldSize * bin) + min,
+        end: (foldSize * (bin + 1)) + min,
+        count: 0,
+      })
+    }
+
+    for (const value of this.data) {
+      if (value < min || value > max) continue
+
+      const bin = Math.floor((value - min) / foldSize)
+      if (bin === bins) {
+        histogramData[bin - 1].count++
+      } else {
+        histogramData[bin].count++
+      }
+    }
+
+    const histogram = fromArray(histogramData)
+    Object.defineProperty(histogram, 'toString', {
+      value: (): string => {
+        const barWidth = 30
+        const minValue = histogram.map(a => a.count).min() ?? 0
+        const maxValue = histogram.map(a => a.count).max() ?? 0
+        const tick = (maxValue - minValue) / barWidth
+
+        const histogramCalc = histogram.map(({ start, end, count }, i) => ({
+          legend: `[${start}, ${end}${i < histogram.length - 1 ? ')' : ']'}`,
+          bar: '█'.repeat(Math.floor((count - minValue) / tick)),
+        }))
+
+        const legendWidth = histogramCalc.reduce((acc, curr) => Math.max(acc, curr.legend.length), 0)
+        const line = '-'.repeat(legendWidth + 3 + barWidth)
+
+        return (
+          line + '\n' +
+          histogramCalc.map(({ legend, bar }) => legend.padStart(legendWidth) + ' | ' + bar).join('\n') + '\n' +
+          line + '\n'
+        )
+      },
+      configurable: false,
+      enumerable: false,
+    })
+
+    return histogram
+  }
+
 }

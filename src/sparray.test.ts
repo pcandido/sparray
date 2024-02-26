@@ -1,4 +1,4 @@
-import { from, range, repeat, empty, isSparray, Sparray, NumericSparray } from './sparray'
+import { NumericSparray, Sparray, empty, from, isSparray, range, repeat } from './sparray'
 
 function assertEqual<T>(actual: Sparray<T>, expected: T[]) {
   expect(actual).toEqual({ _data: expected })
@@ -1422,6 +1422,101 @@ describe('NumericSparray', () => {
       const sut = from(1, 2, 3, 4, 5, 6)
       const avg = sut.avg()
       expect(avg).toBeCloseTo(3.5)
+    })
+  })
+
+  describe('histogram', () => {
+    const sut = from(0, 1, 1, 2, 2, 3, 3, 3, 4, 5, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8, 9, 9, 10, 11, 11, 12)
+
+    it('should create the asked bins', () => {
+      const histogram = sut.histogram(5)
+      expect(histogram.length).toBe(5)
+    })
+
+    it('should divide the number range uniformly through the bins', () => {
+      const histogram1 = sut.histogram(2)
+      assertEqual(histogram1, [
+        { start: 0, end: 6, count: expect.anything() },
+        { start: 6, end: 12, count: expect.anything() },
+      ])
+
+      const histogram2 = sut.histogram(4)
+      assertEqual(histogram2, [
+        { start: 0, end: 3, count: expect.anything() },
+        { start: 3, end: 6, count: expect.anything() },
+        { start: 6, end: 9, count: expect.anything() },
+        { start: 9, end: 12, count: expect.anything() },
+      ])
+    })
+
+    it('should count the elements that fall into each bin', () => {
+      const histogram = sut.histogram(4)
+      assertEqual(histogram, [
+        { start: 0, end: 3, count: 5 },
+        { start: 3, end: 6, count: 7 },
+        { start: 6, end: 9, count: 8 },
+        { start: 9, end: 12, count: 6 },
+      ])
+    })
+
+    it('should count the elements that fall into each bin, even if there are no elements', () => {
+      const histogram = from(0, 1, 2, 6, 7, 8, 9).histogram(3)
+      assertEqual(histogram, [
+        { start: 0, end: 3, count: 3 },
+        { start: 3, end: 6, count: 0 },
+        { start: 6, end: 9, count: 4 },
+      ])
+    })
+
+    it('should create an empty histogram to an empty sparray', () => {
+      const histogram = range(0, 0).histogram(3)
+      assertEqual(histogram, [
+        { start: 0, end: 0, count: 0 },
+        { start: 0, end: 0, count: 0 },
+        { start: 0, end: 0, count: 0 },
+      ])
+    })
+
+    it('should accept custom min and max, and cut off elements out of this range', () => {
+      const histogram = sut.histogram(4, { min: 4, max: 20 })
+      assertEqual(histogram, [
+        { start: 4, end: 8, count: 11 },
+        { start: 8, end: 12, count: 6 },
+        { start: 12, end: 16, count: 1 },
+        { start: 16, end: 20, count: 0 },
+      ])
+    })
+
+    it('should throw an exception if bins < 1', () => {
+      expect(() => sut.histogram(0)).toThrow('bins must be a positive integer')
+    })
+
+    it('should throw an exception if bins is not an integer', () => {
+      expect(() => sut.histogram(1.5)).toThrow('bins must be a positive integer')
+    })
+
+    describe('toString', () => {
+      it('should return an empty histogram to an empty sparray', () => {
+        const histogram = range(0, 0).histogram(1)
+        expect(histogram.toString()).toBe(
+          '---------------------------------------\n' +
+          '[0, 0] | \n' +
+          '---------------------------------------\n',
+        )
+      })
+
+      it('should return a histogram with the bins and counts', () => {
+        const histogram = sut.histogram(4)
+        expect(histogram.toString()).toBe(
+          '----------------------------------------\n' +
+          ' [0, 3) | \n' +
+          ' [3, 6) | ████████████████████\n' +
+          ' [6, 9) | ██████████████████████████████\n' +
+          '[9, 12] | ██████████\n' +
+          '----------------------------------------\n',
+        )
+      })
+
     })
   })
 
